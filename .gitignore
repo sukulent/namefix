@@ -1,0 +1,16 @@
+# Compiled files
+*.o
+*.a
+*.out
+namefix
+
+# directories
+build/
+test/
+old/
+.vscode/
+
+# other files
+confusablesSummary.txt
+notes.txt
+
