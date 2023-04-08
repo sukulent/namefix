@@ -18,8 +18,6 @@
 #define VERSION "0.1"
 #define DEFAULT_MAX_CHARACTERS 64
 #define NON_ASCII_PLACEHOLDER "?"
-#define DEFAULT_SYSTEM_LOOKUP_PATH 	"confusablesSummary.txt"
-#define DEFAULT_USER_LOOKUP_PATH	"namefix.table"
 
 
 // make ASCII from input

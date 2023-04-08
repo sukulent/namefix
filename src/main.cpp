@@ -121,7 +121,7 @@ int main(int argc, char **argv)
 		if (original == renamed)
 		{
 			if (verbose_long)
-				std::cout << std::filesystem::absolute(original).string() << "\t -> Is alread OK!" << std::endl;
+				std::cout << std::filesystem::absolute(original).string() << " -> Is alread OK!" << std::endl;
 			else if (custom_verbose)
 				std::cout << original.string() << "\t -> Is already OK" << std::endl;
 			continue;
@@ -129,12 +129,12 @@ int main(int argc, char **argv)
 		else
 		{
 			if (verbose_long)
-				std::cout << std::filesystem::absolute(original).string() << "\t -> \t" << std::filesystem::absolute(renamed).string() << std::endl;
+				std::cout << std::filesystem::absolute(original).string() << " -> " << std::filesystem::absolute(renamed).string() << std::endl;
 			else if (custom_verbose)
-				std::cout << original.string() << "\t -> \t" << renamed.string() << std::endl;
+				std::cout << original.string() << " -> " << renamed.string() << std::endl;
 		}
 
-		// rename the file (if we not running dry)
+		// rename the file (if we are not running dry)
 		if (!dry_run)
 		{
 			try
@@ -143,7 +143,7 @@ int main(int argc, char **argv)
 			}
 			catch (const std::filesystem::__cxx11::filesystem_error &e)
 			{
-				std::cerr << "Error while renaming " << original << "\t -> \t" << renamed << std::endl;
+				std::cerr << "Error while renaming " << original << " -> " << renamed << std::endl;
 				return 1;
 			}
 		}
@@ -154,7 +154,7 @@ int main(int argc, char **argv)
 
 // Functions
 
-// take a string and make it ASCII - two step process
+// take a string and make it ASCII - a multistep process
 std::string makeASCII(const std::string &input)
 {
 	UErrorCode status = U_ZERO_ERROR;
