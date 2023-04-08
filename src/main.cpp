@@ -14,12 +14,15 @@ int main(int argc, char **argv)
 	args::ValueFlag<std::string> spaces(parser, "STR", "Replace spaces with STR", {'s', "spaces"}, "_");
 	args::Flag no_spaces(parser, "no-spaces", "Do not replace spaces - default replacement is a underscore", {'S', "no-spaces"}, false);
 
-	args::ValueFlag<std::string> dots(parser, "STR", "Replace dots with STR", {'d',"dots"}, "-");
-	args::Flag no_dots(parser, "no-dots", "Do not replace dots - default replacement is a hyphen/dash", {'D',"no-dots"}, false);
+	args::ValueFlag<std::string> dots(parser, "STR", "Replace dots with STR", {'d', "dots"}, "-");
+	args::Flag no_dots(parser, "no-dots", "Do not replace dots - default replacement is a hyphen/dash", {'D', "no-dots"}, false);
 
 	args::ValueFlag<int> characters(parser, "NUM", "The maximum length for the new filename (without extension!)", {'c', "characters"}, DEFAULT_MAX_CHARACTERS);
 
-	args::ValueFlag<std::string> to_ascii(parser, "STR", "Test a string - transforms a UTF-8 string into a ASCII characters and prints it, does not keep extensions", {'t', "to-ascii"}, "");
+	args::ValueFlag<std::string> to_ascii(parser, "STR", "Test a string - transforms a UTF-8 string into a ASCII characters and prints it, does not keep extensions", {'t', "to-ascii"});
+
+	args::ValueFlag<std::string> keep_path(parser, "PATH", "Do not rename, make a copy with a new name and put it in PATH", {'k', "keep-path"});
+	args::Flag keep(parser, "PATH", "Do not rename, make a copy with new name", {'K', "keep"}, false);
 
 	args::Flag version(parser, "version", "Outputs the version", {"version"}, false);
 	args::HelpFlag help(parser, "help", "Display this help menu", {'h', "help"});
@@ -112,10 +115,23 @@ int main(int argc, char **argv)
 			changeDots(stem, dots.Get());
 		}
 
-		// duplicate the path and modify the filename
+		// make the new path from original or specified
 		std::filesystem::path renamed(original);
-		renamed.remove_filename();
-		renamed.append(stem + extension);
+		if (keep_path)
+		{
+			if (!std::filesystem::exists(keep_path.Get()))
+			{
+				std::cerr << "Path \"" << keep_path.Get() << "\" not found" << std::endl;
+				return 1;
+			}
+			renamed.assign(keep_path.Get());
+			renamed.append(stem + extension);
+		}
+		else
+		{
+			renamed.remove_filename();
+			renamed.append(stem + extension);
+		}
 
 		// if the filenames are the same, nothing to do
 		if (original == renamed)
@@ -137,14 +153,29 @@ int main(int argc, char **argv)
 		// rename the file (if we are not running dry)
 		if (!dry_run)
 		{
-			try
+			if (keep_path || keep)
 			{
-				std::filesystem::rename(original, renamed);
+				try
+				{
+					std::filesystem::copy_file(original, renamed, std::filesystem::copy_options::copy_symlinks);
+				}
+				catch (const std::filesystem::filesystem_error &e)
+				{
+					std::cerr << "Error while copying " << original << " -> " << renamed << " -- " << e.what() << std::endl;
+					return 1;
+				}
 			}
-			catch (const std::filesystem::__cxx11::filesystem_error &e)
+			else
 			{
-				std::cerr << "Error while renaming " << original << " -> " << renamed << std::endl;
-				return 1;
+				try
+				{
+					std::filesystem::rename(original, renamed);
+				}
+				catch (const std::filesystem::filesystem_error &e)
+				{
+					std::cerr << "Error while renaming " << original << " -> " << renamed << " -- " << e.what() << std::endl;
+					return 1;
+				}
 			}
 		}
 	}
