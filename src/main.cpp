@@ -5,19 +5,24 @@ int main(int argc, char **argv)
 
 	// setting up the argument parser
 	args::ArgumentParser parser("Namefix - fix bad filenames\nTries to renames files so all characters are ASCII, keeps extensions untouched");
-	args::HelpFlag help(parser, "help", "Disp+lay this help menu", {'h', "help"});
 
-	// bool flags
 	args::Flag verbose(parser, "verbose", "Verbose output", {'v', "verbose"}, false);
 	args::Flag verbose_long(parser, "verbose-long", "Verbose output - including absolute paths", {'V', "verbose-long"}, false);
-	args::Flag version(parser, "version", "Outputs the version", {"version"}, false);
-	args::Flag dry_run(parser, "dry-run", "Dry run, don't do anything, just print what would have been done (implies -v)", {'d', "dry-run"}, false);
-	args::Flag no_spaces(parser, "no-spaces", "Do not replace spaces - default replacement is underscore", {'S', "no-spaces"}, false);
 
-	// value flags
-	args::ValueFlag<std::string> test(parser, "STR", "Test a string - transforms a UTF-8 string into a ASCII char and prints it", {'t', "to-ascii"}, "");
-	args::ValueFlag<int> characters(parser, "NUM", "The maximum length for the new filename (without extension!), keeps extension", {'c', "characters"}, DEFAULT_MAX_CHARACTERS);
+	args::Flag dry_run(parser, "dry-run", "Dry run, don't do anything, just print what would have been done (implies -v)", {"dry-run"}, false);
+
 	args::ValueFlag<std::string> spaces(parser, "STR", "Replace spaces with STR", {'s', "spaces"}, "_");
+	args::Flag no_spaces(parser, "no-spaces", "Do not replace spaces - default replacement is a underscore", {'S', "no-spaces"}, false);
+
+	args::ValueFlag<std::string> dots(parser, "STR", "Replace dots with STR", {'d',"dots"}, "-");
+	args::Flag no_dots(parser, "no-dots", "Do not replace dots - default replacement is a hyphen/dash", {'D',"no-dots"}, false);
+
+	args::ValueFlag<int> characters(parser, "NUM", "The maximum length for the new filename (without extension!)", {'c', "characters"}, DEFAULT_MAX_CHARACTERS);
+
+	args::ValueFlag<std::string> to_ascii(parser, "STR", "Test a string - transforms a UTF-8 string into a ASCII characters and prints it, does not keep extensions", {'t', "to-ascii"}, "");
+
+	args::Flag version(parser, "version", "Outputs the version", {"version"}, false);
+	args::HelpFlag help(parser, "help", "Display this help menu", {'h', "help"});
 
 	// list for input files
 	args::PositionalList<std::string> input_file(parser, "input", "Input files");
@@ -58,9 +63,9 @@ int main(int argc, char **argv)
 	}
 
 	// if flag test is specified, convert and print the string
-	if (test)
+	if (to_ascii)
 	{
-		std::cout << makeASCII(test.Get()) << std::endl;
+		std::cout << makeASCII(to_ascii.Get()) << std::endl;
 		return 0;
 	}
 
@@ -95,9 +100,16 @@ int main(int argc, char **argv)
 			stem.resize(characters.Get());
 		}
 
+		// space conversion pass
 		if (!no_spaces)
 		{
 			changeSpaces(stem, spaces.Get());
+		}
+
+		// dot conversion pass
+		if (!no_dots)
+		{
+			changeDots(stem, dots.Get());
 		}
 
 		// duplicate the path and modify the filename
@@ -186,5 +198,11 @@ std::string makeASCII(const std::string &input)
 void changeSpaces(std::string &input, const std::string &replacement)
 {
 	std::regex regex(" ");
+	input = std::regex_replace(input, regex, replacement);
+}
+
+void changeDots(std::string &input, const std::string &replacement)
+{
+	std::regex regex("\\.");
 	input = std::regex_replace(input, regex, replacement);
 }
