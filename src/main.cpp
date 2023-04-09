@@ -10,6 +10,7 @@ int main(int argc, char **argv)
 
 	args::Flag report(parser, "report", "Just report all files not conforming", {'r', "report"}, false);
 	args::Flag dry_run(parser, "dry-run", "Dry run, don't do anything, just print what would have been done (implies -v)", {"dry-run"}, false);
+	args::Flag ignore_errors(parser, "ignore-errors", "Do not stop when error is encountered", {'I',"ignore-errors"}, false);
 
 	args::ValueFlag<std::string> spaces(parser, "STR", "Replace spaces with STR", {'s', "spaces"}, "_");
 	args::Flag no_spaces(parser, "no-spaces", "Do not replace spaces - default replacement is underscore", {'S', "no-spaces"}, false);
@@ -55,6 +56,9 @@ int main(int argc, char **argv)
 	// custom verbose variable so dry_run can force it
 	bool custom_verbose = (verbose > 0) || (dry_run > 0) ? true : false;
 
+	// count errors
+	u_int error_num = 0;
+
 	// Parsing done
 
 	// just print version
@@ -85,6 +89,11 @@ int main(int argc, char **argv)
 		if (!std::filesystem::exists(iter))
 		{
 			std::cerr << "File \"" << iter << "\" not found" << std::endl;
+			if (ignore_errors)
+			{
+				error_num++;
+				continue;
+			}
 			return 1;
 		}
 
@@ -171,6 +180,11 @@ int main(int argc, char **argv)
 				catch (const std::filesystem::filesystem_error &e)
 				{
 					std::cerr << "Error while copying " << original << " -> " << renamed << " -- " << e.what() << std::endl;
+					if (ignore_errors)
+					{
+						error_num++;
+						continue;
+					}
 					return 1;
 				}
 			}
@@ -183,13 +197,24 @@ int main(int argc, char **argv)
 				catch (const std::filesystem::filesystem_error &e)
 				{
 					std::cerr << "Error while renaming " << original << " -> " << renamed << " -- " << e.what() << std::endl;
+					if (ignore_errors)
+					{
+						error_num++;
+						continue;
+					}
 					return 1;
 				}
 			}
 		}
 	}
 
-	return 0;
+	if (error_num)
+	{
+		std::cerr << "Finished with " << error_num << " error(s)." << std::endl;
+		return 1;
+	}
+	else
+		return 0;
 }
 
 // Functions
