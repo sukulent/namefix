@@ -9,6 +9,7 @@ int main(int argc, char **argv)
 	args::Flag verbose(parser, "verbose", "Verbose output", {'v', "verbose"}, false);
 	args::Flag verbose_long(parser, "verbose-long", "Verbose output - including absolute paths", {'V', "verbose-long"}, false);
 
+	args::Flag report(parser, "report", "Just report all files not conforming", {'r', "report"}, false);
 	args::Flag dry_run(parser, "dry-run", "Dry run, don't do anything, just print what would have been done (implies -v)", {"dry-run"}, false);
 
 	args::ValueFlag<std::string> spaces(parser, "STR", "Replace spaces with STR", {'s', "spaces"}, "_");
@@ -131,6 +132,16 @@ int main(int argc, char **argv)
 		{
 			renamed.remove_filename();
 			renamed.append(stem + extension);
+		}
+
+		// just report bad files
+		if (report)
+		{
+			if (original != renamed)
+			{
+				std::cout << original.string() << std::endl;
+			}
+			continue;
 		}
 
 		// if the filenames are the same, nothing to do
