@@ -17,7 +17,7 @@ int main(int argc, char **argv)
 	args::ValueFlag<std::string> dots(parser, "STR", "Replace dots with STR", {'d', "dots"}, "-");
 	args::Flag no_dots(parser, "no-dots", "Do not replace dots - default replacement is hyphen/dash", {'D', "no-dots"}, false);
 
-	args::ValueFlag<int> characters(parser, "NUM", "The maximum length for the new filename (without extension!) Default " + std::to_string(DEFAULT_MAX_CHARACTERS), {'c', "characters"}, DEFAULT_MAX_CHARACTERS);
+	args::ValueFlag<u_int> characters(parser, "NUM", "The maximum length for the new filename (without extension!) Default " + std::to_string(DEFAULT_MAX_CHARACTERS), {'c', "characters"}, DEFAULT_MAX_CHARACTERS);
 
 	args::ValueFlag<std::string> keep_path(parser, "PATH", "Do not rename, make a copy with the new name and put it in PATH", {'k', "keep-path"});
 	args::Flag keep(parser, "PATH", "Do not rename, make a copy with new name", {'K', "keep"}, false);
@@ -97,7 +97,7 @@ int main(int argc, char **argv)
 		stem = makeASCII(stem);
 
 		// resize the name if it's too long
-		if (static_cast<int>(stem.size()) > characters.Get())
+		if (stem.size() > characters.Get())
 		{
 			stem.resize(characters.Get());
 		}
