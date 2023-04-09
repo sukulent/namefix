@@ -203,10 +203,16 @@ std::string makeASCII(const std::string &input)
 	icu::UnicodeString uinput = icu::UnicodeString::fromUTF8(input);
 
 	// Create a Normalizer2 object for Unicode canonical decomposition
-	const icu::Normalizer2 *nfd_normalizer = icu::Normalizer2::getNFDInstance(status);
+	const icu::Normalizer2 *normalizer_decompose = icu::Normalizer2::getNFDInstance(status);
 
-	// Normalize the string to the NFD form - should remove combining characters & stuff
-	nfd_normalizer->normalize(uinput, status);
+	// Create a Normalizer2 object for Unicode canonical composition
+	const icu::Normalizer2 *normalizer_compose = icu::Normalizer2::getNFCInstance(status);
+
+	// Normalize the string to the NFC form - should decompose all characters
+	uinput = normalizer_decompose->normalize(uinput, status);
+
+	// Normalize the string to the NFC form - should compose all characters back
+	uinput = normalizer_compose->normalize(uinput, status);
 
 	// define the transtliterator identifiers
 	const icu::UnicodeString ID_latin("Any-Latin");
