@@ -2,29 +2,27 @@
 
 int main(int argc, char **argv)
 {
-
 	// setting up the argument parser
-	args::ArgumentParser parser("Namefix - fix bad filenames\nTries to renames files so all characters are ASCII, keeps extensions untouched");
+	args::ArgumentParser parser("Namefix - fix bad filenames\nTries to rename files so all characters are ASCII, keeps extensions untouched");
 
 	args::Flag verbose(parser, "verbose", "Verbose output", {'v', "verbose"}, false);
-	args::Flag verbose_long(parser, "verbose-long", "Verbose output - including absolute paths", {'V', "verbose-long"}, false);
+	args::Flag verbose_long(parser, "verbose-long", "Verbose output - absolute paths", {'V', "verbose-long"}, false);
 
 	args::Flag report(parser, "report", "Just report all files not conforming", {'r', "report"}, false);
 	args::Flag dry_run(parser, "dry-run", "Dry run, don't do anything, just print what would have been done (implies -v)", {"dry-run"}, false);
 
 	args::ValueFlag<std::string> spaces(parser, "STR", "Replace spaces with STR", {'s', "spaces"}, "_");
-	args::Flag no_spaces(parser, "no-spaces", "Do not replace spaces - default replacement is a underscore", {'S', "no-spaces"}, false);
+	args::Flag no_spaces(parser, "no-spaces", "Do not replace spaces - default replacement is underscore", {'S', "no-spaces"}, false);
 
 	args::ValueFlag<std::string> dots(parser, "STR", "Replace dots with STR", {'d', "dots"}, "-");
-	args::Flag no_dots(parser, "no-dots", "Do not replace dots - default replacement is a hyphen/dash", {'D', "no-dots"}, false);
+	args::Flag no_dots(parser, "no-dots", "Do not replace dots - default replacement is hyphen/dash", {'D', "no-dots"}, false);
 
-	args::ValueFlag<int> characters(parser, "NUM", "The maximum length for the new filename (without extension!)", {'c', "characters"}, DEFAULT_MAX_CHARACTERS);
+	args::ValueFlag<int> characters(parser, "NUM", "The maximum length for the new filename (without extension!) Default " + std::to_string(DEFAULT_MAX_CHARACTERS), {'c', "characters"}, DEFAULT_MAX_CHARACTERS);
 
-	args::ValueFlag<std::string> to_ascii(parser, "STR", "Test a string - transforms a UTF-8 string into a ASCII characters and prints it, does not keep extensions", {'t', "to-ascii"});
-
-	args::ValueFlag<std::string> keep_path(parser, "PATH", "Do not rename, make a copy with a new name and put it in PATH", {'k', "keep-path"});
+	args::ValueFlag<std::string> keep_path(parser, "PATH", "Do not rename, make a copy with the new name and put it in PATH", {'k', "keep-path"});
 	args::Flag keep(parser, "PATH", "Do not rename, make a copy with new name", {'K', "keep"}, false);
 
+	args::ValueFlag<std::string> to_ascii(parser, "STR", "Test a string - transforms a UTF-8 string into ASCII and prints it, does not keep extensions", {'t', "to-ascii"});
 	args::Flag version(parser, "version", "Outputs the version", {"version"}, false);
 	args::HelpFlag help(parser, "help", "Display this help menu", {'h', "help"});
 
@@ -55,7 +53,7 @@ int main(int argc, char **argv)
 	}
 
 	// custom verbose variable so dry_run can force it
-	bool custom_verbose = verbose > 0 || dry_run > 0 ? true : false;
+	bool custom_verbose = (verbose > 0) || (dry_run > 0) ? true : false;
 
 	// Parsing done
 
@@ -83,11 +81,11 @@ int main(int argc, char **argv)
 	// go through input files
 	for (auto const &iter : input_file.Get())
 	{
-		// skip file if it doesn't exist
+		// check if file exists
 		if (!std::filesystem::exists(iter))
 		{
 			std::cerr << "File \"" << iter << "\" not found" << std::endl;
-			continue;
+			return 1;
 		}
 
 		// create path objects
