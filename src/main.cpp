@@ -20,6 +20,9 @@ int main(int argc, char **argv)
 
 	args::ValueFlag<u_int> characters(parser, "NUM", "The maximum length for the new filename (without extension!) Default " + std::to_string(DEFAULT_MAX_CHARACTERS), {'c', "characters"}, DEFAULT_MAX_CHARACTERS);
 
+	args::ValueFlag<std::string> overide(parser, "A/B", "Replace A with B before fixing filename", {'o', "override"});
+	args::ValueFlag<std::string> exclusive_overide(parser, "A/B", "Only replace A with B, change nothing else", {'O', "exclusive-override"});
+
 	args::ValueFlag<std::string> keep_path(parser, "PATH", "Do not rename, make a copy with the new name and put it in PATH", {'k', "keep-path"});
 	args::Flag keep(parser, "PATH", "Do not rename, make a copy with new name", {'K', "keep"}, false);
 
@@ -102,25 +105,54 @@ int main(int argc, char **argv)
 		std::string extension = original.extension();
 		std::string stem(original.stem().string());
 
-		// convert the filename to ascii
-		stem = makeASCII(stem);
-
-		// resize the name if it's too long
-		if (stem.size() > characters.Get())
+		// if override, replace accordingly
+		if (overide || exclusive_overide)
 		{
-			stem.resize(characters.Get());
+			std::string in_str;
+
+			// get the instructions
+			if (overide)
+				in_str = overide.Get();
+			else
+				in_str = exclusive_overide.Get();
+
+			// read the instructions and fail if they are wrong
+			std::regex expression("(.+)\\/(.+)");
+			std::smatch in_match;
+			if (!std::regex_match(in_str, in_match, expression))
+			{
+				std::cerr << "Overried parameter invalid" << std::endl;
+				return 1;
+			}
+
+			// replace accordingly
+			expression = in_match[1].str();
+			stem = std::regex_replace(stem, expression, in_match[2].str());
 		}
 
-		// space conversion pass
-		if (!no_spaces)
+		// apply conversions if we are not exclusive
+		if (!exclusive_overide)
 		{
-			changeSpaces(stem, spaces.Get());
-		}
+			// convert the filename to ascii
+			stem = makeASCII(stem);
 
-		// dot conversion pass
-		if (!no_dots)
-		{
-			changeDots(stem, dots.Get());
+			// resize the name if it's too long
+			if (stem.size() > characters.Get())
+			{
+				stem.resize(characters.Get());
+			}
+
+			// space conversion pass
+			if (!no_spaces)
+			{
+				changeSpaces(stem, spaces.Get());
+			}
+
+			// dot conversion pass
+			if (!no_dots)
+			{
+				changeDots(stem, dots.Get());
+			}
 		}
 
 		// make the new path from original or specified
