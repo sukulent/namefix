@@ -15,8 +15,8 @@ int main(int argc, char **argv)
 	args::ValueFlag<std::string> spaces(parser, "STR", "Replace spaces with STR", {'s', "spaces"}, "_");
 	args::Flag no_spaces(parser, "no-spaces", "Do not replace spaces - default replacement is underscore", {'S', "no-spaces"}, false);
 
-	args::ValueFlag<std::string> dots(parser, "STR", "Replace dots with STR", {'d', "dots"}, "-");
-	args::Flag no_dots(parser, "no-dots", "Do not replace dots - default replacement is hyphen/dash", {'D', "no-dots"}, false);
+	args::ValueFlag<std::string> periods(parser, "STR", "Replace periods with STR", {'p', "periods"}, "-");
+	args::Flag no_periods(parser, "no-periods", "Do not replace periods - default replacement is hyphen/dash", {'D', "no-periods"}, false);
 
 	args::ValueFlag<u_int> characters(parser, "NUM", "The maximum length for the new filename (without extension!) Default " + std::to_string(DEFAULT_MAX_CHARACTERS), {'c', "characters"}, DEFAULT_MAX_CHARACTERS);
 
@@ -71,7 +71,7 @@ int main(int argc, char **argv)
 		return 0;
 	}
 
-	// if flag test is specified, convert and print the string
+	// if flag to_ascii is specified, convert and print the string
 	if (to_ascii)
 	{
 		std::cout << makeASCII(to_ascii.Get()) << std::endl;
@@ -148,10 +148,10 @@ int main(int argc, char **argv)
 				changeSpaces(stem, spaces.Get());
 			}
 
-			// dot conversion pass
-			if (!no_dots)
+			// period conversion pass
+			if (!no_periods)
 			{
-				changeDots(stem, dots.Get());
+				changePeriods(stem, periods.Get());
 			}
 		}
 
@@ -304,7 +304,7 @@ void changeSpaces(std::string &input, const std::string &replacement)
 	input = std::regex_replace(input, regex, replacement);
 }
 
-void changeDots(std::string &input, const std::string &replacement)
+void changePeriods(std::string &input, const std::string &replacement)
 {
 	std::regex regex("\\.");
 	input = std::regex_replace(input, regex, replacement);

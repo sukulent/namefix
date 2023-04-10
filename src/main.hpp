@@ -26,7 +26,7 @@ std::string makeASCII(const std::string &input);
 // change spaces to replacement (in place)
 void changeSpaces(std::string &input, const std::string &replacement);
 
-// change dots to replacement (in place)
-void changeDots(std::string &input, const std::string &replacement);
+// change periods to replacement (in place)
+void changePeriods(std::string &input, const std::string &replacement);
 
 #endif
