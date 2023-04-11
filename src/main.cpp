@@ -18,6 +18,7 @@ int main(int argc, char **argv)
 	args::ValueFlag<std::string> periods(parser, "STR", "Replace periods with STR", {'p', "periods"}, DEFAULT_PERIODS_REPLACEMENT);
 	args::Flag no_periods(parser, "no-periods", ("Do not replace periods - default replacement is '" DEFAULT_PERIODS_REPLACEMENT "'"), {'D', "no-periods"}, false);
 
+	args::ValueFlag<std::string> non_ascii_replacement(parser, "STR", ("Replace remaining non-ASCII characters with STR - default replacement is '" DEFAULT_NON_ASCII_REPLACEMENT "'"), {'n', "non-ASCII"}, DEFAULT_NON_ASCII_REPLACEMENT);
 
 	args::ValueFlag<u_int> characters(parser, "NUM", "The maximum length for the new filename (without extension!) Default " + std::to_string(DEFAULT_MAX_CHARACTERS), {'c', "characters"}, DEFAULT_MAX_CHARACTERS);
 
@@ -75,7 +76,7 @@ int main(int argc, char **argv)
 	// if flag to_ascii is specified, convert and print the string
 	if (to_ascii)
 	{
-		std::cout << makeASCII(to_ascii.Get()) << std::endl;
+		std::cout << makeASCII(to_ascii.Get(), non_ascii_replacement.Get()) << std::endl;
 		return 0;
 	}
 
@@ -135,7 +136,7 @@ int main(int argc, char **argv)
 		if (!exclusive_overide)
 		{
 			// convert the filename to ascii
-			stem = makeASCII(stem);
+			stem = makeASCII(stem, non_ascii_replacement.Get());
 
 			// resize the name if it's too long
 			if (stem.size() > characters.Get())
@@ -260,7 +261,7 @@ int main(int argc, char **argv)
 // Functions
 
 // take a string and make it ASCII - a multistep process
-std::string makeASCII(const std::string &input)
+std::string makeASCII(const std::string &input, const std::string &placeholder)
 {
 	UErrorCode status = U_ZERO_ERROR;
 
@@ -301,7 +302,7 @@ std::string makeASCII(const std::string &input)
 
 	// if any non-ASCII characters are left, replace them with placeholder
 	std::regex non_ascii("[^\\x00-\\x7F]++"); // regular expression to match non-ASCII characters, if multiple are right after each other, will replace with one placeholder
-	output = std::regex_replace(output, non_ascii, NON_ASCII_PLACEHOLDER);
+	output = std::regex_replace(output, non_ascii, placeholder);
 
 	return output;
 }

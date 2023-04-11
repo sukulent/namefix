@@ -27,7 +27,7 @@
 
 
 // make ASCII from input
-std::string makeASCII(const std::string &input);
+std::string makeASCII(const std::string &input, const std::string &placeholder);
 
 // change spaces to replacement (in place)
 void changeSpaces(std::string &input, const std::string &replacement);
