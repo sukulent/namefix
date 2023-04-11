@@ -8,7 +8,7 @@ int main(int argc, char **argv)
 	args::Flag verbose(parser, "verbose", "Verbose output", {'v', "verbose"}, false);
 	args::Flag verbose_long(parser, "verbose-long", "Verbose output - absolute paths", {'V', "verbose-long"}, false);
 
-	args::Flag report(parser, "report", "Just report all files not conforming", {'r', "report"}, false);
+	args::Flag report(parser, "report", "Just report all files not conforming, -V for absolute paths", {'r', "report"}, false);
 	args::Flag dry_run(parser, "dry-run", "Dry run, don't do anything, just print what would have been done (implies -v)", {"dry-run"}, false);
 	args::Flag ignore_errors(parser, "ignore-errors", "Do not stop when error is encountered", {'I',"ignore-errors"}, false);
 
@@ -178,7 +178,14 @@ int main(int argc, char **argv)
 		{
 			if (original != renamed)
 			{
-				std::cout << original.string() << std::endl;
+				if (verbose_long)
+				{
+					std::cout << std::filesystem::absolute(original).string() << std::endl;
+				}
+				else
+				{
+					std::cout << original.string() << std::endl;
+				}
 			}
 			continue;
 		}
