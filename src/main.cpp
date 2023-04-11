@@ -1,3 +1,19 @@
+/* This file is part of Namefix - fix bad filenames
+ *
+ * Copyright (C) 2023 sukulent
+ *
+ * https://github.com/sukulent/namefix
+ *
+ * This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program. If not, see <https://www.gnu.org/licenses/>.
+ *
+ *
+ */
+
+
 #include "main.hpp"
 
 int main(int argc, char **argv)
@@ -9,14 +25,14 @@ int main(int argc, char **argv)
 	args::Flag verbose_long(parser, "verbose-long", "Verbose output - absolute paths", {'V', "verbose-long"}, false);
 
 	args::Flag report(parser, "report", "Just report all files not conforming, -V for absolute paths", {'r', "report"}, false);
-	args::Flag dry_run(parser, "dry-run", "Dry run, don't do anything, just print what would have been done (implies -v)", {"dry-run"}, false);
+	args::Flag dry_run(parser, "dry-run", "Dry run, don't do anything, just print what would have been done (implies -v)", {'d', "dry-run"}, false);
 	args::Flag ignore_errors(parser, "ignore-errors", "Do not stop when error is encountered", {'I',"ignore-errors"}, false);
 
 	args::ValueFlag<std::string> spaces(parser, "STR", "Replace spaces with STR", {'s', "spaces"}, DEFAULT_SPACES_REPLACEMENT);
 	args::Flag no_spaces(parser, "no-spaces", ("Do not replace spaces - default replacement is '" DEFAULT_SPACES_REPLACEMENT "'") , {'S', "no-spaces"}, false);
 
 	args::ValueFlag<std::string> periods(parser, "STR", "Replace periods with STR", {'p', "periods"}, DEFAULT_PERIODS_REPLACEMENT);
-	args::Flag no_periods(parser, "no-periods", ("Do not replace periods - default replacement is '" DEFAULT_PERIODS_REPLACEMENT "'"), {'D', "no-periods"}, false);
+	args::Flag no_periods(parser, "no-periods", ("Do not replace periods - default replacement is '" DEFAULT_PERIODS_REPLACEMENT "'"), {'P', "no-periods"}, false);
 
 	args::ValueFlag<std::string> non_ascii_replacement(parser, "STR", ("Replace remaining non-ASCII characters with STR - default replacement is '" DEFAULT_NON_ASCII_REPLACEMENT "'"), {'n', "non-ASCII"}, DEFAULT_NON_ASCII_REPLACEMENT);
 
@@ -28,7 +44,7 @@ int main(int argc, char **argv)
 	args::ValueFlag<std::string> keep_path(parser, "PATH", "Do not rename, make a copy with the new name and put it in PATH", {'k', "keep-path"});
 	args::Flag keep(parser, "PATH", "Do not rename, make a copy with new name", {'K', "keep"}, false);
 
-	args::ValueFlag<std::string> to_ascii(parser, "STR", "Test a string - transforms a UTF-8 string into ASCII and prints it, does not keep extensions", {'t', "to-ascii"});
+	args::ValueFlag<std::string> to_ascii(parser, "STR", "Test a string - transforms a UTF-8 string into ASCII and prints it, does not keep extensions", {'t', "to-ASCII"});
 	args::Flag version(parser, "version", "Outputs the version", {"version"}, false);
 	args::HelpFlag help(parser, "help", "Display this help menu", {'h', "help"});
 

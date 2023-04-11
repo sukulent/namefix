@@ -1,13 +1,13 @@
 CXX = g++
-CXXFLAGS= -g -std=c++17 -Wall -Wpedantic -Wextra -licuuc -licui18n
+CXXFLAGS= -std=c++17 -Wall -Wpedantic -Wextra -licuuc -licui18n
 SOURCES = $(wildcard src/*.cpp)
 NAME = namefix
 
 main: $(SOURCES) 
-	$(CXX) $^ -o $(NAME) $(CXXFLAGS)
+	$(CXX) $^ -o $(NAME) $(CXXFLAGS) && strip $(name)
 
 sanitize: $(SOURCES) 
-	$(CXX) $^ -o $(NAME) $(CXXFLAGS) -fsanitize=leak
+	$(CXX) $^ -o $(NAME) $(CXXFLAGS) -g -fsanitize=leak
 
 all: main
 
