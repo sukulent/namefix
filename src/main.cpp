@@ -12,11 +12,12 @@ int main(int argc, char **argv)
 	args::Flag dry_run(parser, "dry-run", "Dry run, don't do anything, just print what would have been done (implies -v)", {"dry-run"}, false);
 	args::Flag ignore_errors(parser, "ignore-errors", "Do not stop when error is encountered", {'I',"ignore-errors"}, false);
 
-	args::ValueFlag<std::string> spaces(parser, "STR", "Replace spaces with STR", {'s', "spaces"}, "_");
-	args::Flag no_spaces(parser, "no-spaces", "Do not replace spaces - default replacement is underscore", {'S', "no-spaces"}, false);
+	args::ValueFlag<std::string> spaces(parser, "STR", "Replace spaces with STR", {'s', "spaces"}, DEFAULT_SPACES_REPLACEMENT);
+	args::Flag no_spaces(parser, "no-spaces", ("Do not replace spaces - default replacement is '" DEFAULT_SPACES_REPLACEMENT "'") , {'S', "no-spaces"}, false);
 
-	args::ValueFlag<std::string> periods(parser, "STR", "Replace periods with STR", {'p', "periods"}, "-");
-	args::Flag no_periods(parser, "no-periods", "Do not replace periods - default replacement is hyphen/dash", {'D', "no-periods"}, false);
+	args::ValueFlag<std::string> periods(parser, "STR", "Replace periods with STR", {'p', "periods"}, DEFAULT_PERIODS_REPLACEMENT);
+	args::Flag no_periods(parser, "no-periods", ("Do not replace periods - default replacement is '" DEFAULT_PERIODS_REPLACEMENT "'"), {'D', "no-periods"}, false);
+
 
 	args::ValueFlag<u_int> characters(parser, "NUM", "The maximum length for the new filename (without extension!) Default " + std::to_string(DEFAULT_MAX_CHARACTERS), {'c', "characters"}, DEFAULT_MAX_CHARACTERS);
 
@@ -67,7 +68,7 @@ int main(int argc, char **argv)
 	// just print version
 	if (version)
 	{
-		std::cout << "Namefix version " << VERSION << std::endl;
+		std::cout << "Namefix version " << NAMEFIX_VERSION << std::endl;
 		return 0;
 	}
 

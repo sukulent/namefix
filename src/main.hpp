@@ -15,9 +15,15 @@
 #include <unicode/normalizer2.h>
 
 // defines
-#define VERSION "0.1"
+#define NAMEFIX_VERSION "1.0.0"
+#define NAMEFIX_VERSION_MAJOR 1
+#define NAMEFIX_VERSION_MINOR 0
+#define NAMEFIX_VERSION_PATCH 0
+
 #define DEFAULT_MAX_CHARACTERS 64
-#define NON_ASCII_PLACEHOLDER "?"
+#define DEFAULT_NON_ASCII_REPLACEMENT "?"
+#define DEFAULT_SPACES_REPLACEMENT "_"
+#define DEFAULT_PERIODS_REPLACEMENT "-"
 
 
 // make ASCII from input
