@@ -36,7 +36,7 @@ int main(int argc, char **argv)
 
 	args::ValueFlag<std::string> non_ascii_replacement(parser, "STR", ("Replace remaining non-ASCII characters with STR - default replacement is '" DEFAULT_NON_ASCII_REPLACEMENT "'"), {'n', "non-ASCII"}, DEFAULT_NON_ASCII_REPLACEMENT);
 
-	args::ValueFlag<u_int> characters(parser, "NUM", "The maximum length for the new filename (without extension!) Default " + std::to_string(DEFAULT_MAX_CHARACTERS), {'c', "characters"}, DEFAULT_MAX_CHARACTERS);
+	args::ValueFlag<u_int> characters(parser, "NUM", "The maximum length for the new filename (without extension!) default is" + std::to_string(DEFAULT_MAX_CHARACTERS), {'c', "characters"}, DEFAULT_MAX_CHARACTERS);
 
 	args::ValueFlag<std::string> overide(parser, "A/B", "Replace A with B before fixing filename", {'o', "override"});
 	args::ValueFlag<std::string> exclusive_overide(parser, "A/B", "Only replace A with B, change nothing else", {'O', "exclusive-override"});
