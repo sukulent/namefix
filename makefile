@@ -3,15 +3,15 @@ CXXFLAGS= -std=c++17 -Wall -Wpedantic -Wextra -licuuc -licui18n
 SOURCES = $(wildcard src/*.cpp)
 NAME = namefix
 
-main: $(SOURCES) 
-	$(CXX) $^ -o $(NAME) $(CXXFLAGS) && strip $(NAME)
+all: namefix
+
+namefix: $(SOURCES) 
+	$(CXX) $^ -o $@ $(CXXFLAGS) && strip $(NAME)
 
 sanitize: $(SOURCES) 
 	$(CXX) $^ -o $(NAME) $(CXXFLAGS) -g -fsanitize=leak
 
-all: main
-
-install: main
+install: namefix
 	cp namefix /usr/local/bin/
 	chown root:root /usr/local/bin/namefix
 	chmod 755 /usr/local/bin/namefix
@@ -21,3 +21,5 @@ uninstall:
 
 clean:
 	rm -f $(NAME)
+
+.PHONY: all sanitize install uninstall clean

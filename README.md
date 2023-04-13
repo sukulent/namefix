@@ -5,13 +5,13 @@ Fix bad filenames - tries to rename files so all characters are ASCII, replaces 
 ```
 So m.a.n.y d.o.t.s.thing -> So_m-a-n-y_d-o-t-s.thing
 
-Ṱ̺̺̕o͞ ̷i̲̬͇̪͙n̝̗͕v̟̜̘̦͟o̶̙̰̠kè͚̮̺̪̹̱̤ ̖t̝͕̳̣̻̪͞h̼͓̲̦̳̘̲e͇̣̰̦̬͎ ̢̼̻̱̘h͚͎͙̜̣̲ͅi̦̲̣̰̤v̻͍e̺̭̳̪̰-m̢iͅn̖̺̞̲̯̰d̵̼̟͙̩̼̘̳.thing -> To_?invoke_?the_?hive-mind.thing
-
 Žluťoučký kůň.thing -> Zlutoucky_kun.thing
 
 Привет.thing -> Privet.thing
 
 Ω§E®Ŧ¥↑ıØÞÆẞÐªŊĦŁß©×.thing -> O?E(R)T?iOTHAESSD?NHLss(C)*.thing
+
+Ṱ̺̺̕o͞ ̷i̲̬͇̪͙n̝̗͕v̟̜̘̦͟o̶̙̰̠kè͚̮̺̪̹̱̤ ̖t̝͕̳̣̻̪͞h̼͓̲̦̳̘̲e͇̣̰̦̬͎ ̢̼̻̱̘h͚͎͙̜̣̲ͅi̦̲̣̰̤v̻͍e̺̭̳̪̰-m̢iͅn̖̺̞̲̯̰d̵̼̟͙̩̼̘̳.thing -> To_?invoke_?the_?hive-mind.thing
 ```
 
 ## Usage
@@ -57,7 +57,7 @@ So m.a.n.y d.o.t.s.thing -> So_m-a-n-y_d-o-t-s.thing
 I plan to make an Arch PKGBUILD and also a Debian package sometime in the future. For now, you can build it from source.
 
 ## Building from source
-You will need to have make, strip (binutils), git and g++ installed.
+You will need to have make, strip (binutils), git and g++ (gcc).
 Than it should be as simple as cloning this repo and running `make`. A namefix executable will be generated, place it wherever you like.
 You can run `make install` if you want to copy the executable to /usr/local/bin/,
 and `make uninstall` runs `rm /usr/local/bin/namefix` if you want to remove it.
@@ -75,7 +75,7 @@ and `make uninstall` runs `rm /usr/local/bin/namefix` if you want to remove it.
 Firstly, these flags are checked:
 - If help flag is set, show help and exit.
 - If version flag is set, show version and exit.
-- If to-ascii flag is set, convert the provided string to ASCII and exit. Does not replace spaces or periods.
+- If to-ASCII flag is set, convert the provided string to ASCII and exit. Does not replace spaces or periods.
 
 Than for each file provided:
 - Fail if the file does not exist (if ignore-errors flag is not set)
