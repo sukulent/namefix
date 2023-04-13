@@ -11,5 +11,13 @@ sanitize: $(SOURCES)
 
 all: main
 
+install: main
+	chown root:root namefix
+	chmod 755 namefix
+	cp namefix /usr/bin/
+
+uninstall:
+	rm /usr/bin/namefix
+
 clean:
 	rm -f $(NAME)

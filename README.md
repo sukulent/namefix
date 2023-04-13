@@ -43,6 +43,19 @@ Fix bad filenames - tries to rename files so all characters are ASCII, replaces 
       "--" can be used to terminate flag options and force all following
       arguments to be treated as positional options
 
+## Installation
+
+You need to have make, git and g++ installed.
+Than it is as simle as cloning this repo and running make. A namefix executable will be generated, place it wherever you like.
+You can run make install if you want to copy the executable to /usr/bin, make uninstall runs `rm /usr/bin/namefix` if you want to remove it.
+
+```
+	git clone https://github.com/sukulent/namefix.git && cd namefix
+
+	make
+
+	sudo make install
+```
 
 ## How is it done?
 
