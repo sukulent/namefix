@@ -4,7 +4,7 @@ SOURCES = $(wildcard src/*.cpp)
 NAME = namefix
 
 main: $(SOURCES) 
-	$(CXX) $^ -o $(NAME) $(CXXFLAGS) && strip $(name)
+	$(CXX) $^ -o $(NAME) $(CXXFLAGS) && strip $(NAME)
 
 sanitize: $(SOURCES) 
 	$(CXX) $^ -o $(NAME) $(CXXFLAGS) -g -fsanitize=leak
@@ -12,12 +12,12 @@ sanitize: $(SOURCES)
 all: main
 
 install: main
-	chown root:root namefix
-	chmod 755 namefix
-	cp namefix /usr/bin/
+	cp namefix /usr/local/bin/
+	chown root:root /usr/local/bin/namefix
+	chmod 755 /usr/local/bin/namefix
 
 uninstall:
-	rm /usr/bin/namefix
+	rm /usr/local/bin/namefix
 
 clean:
 	rm -f $(NAME)

@@ -1,12 +1,21 @@
 # Namefix 
-Fix bad filenames - tries to rename files so all characters are ASCII, replaces spaces with an underscore and periods with a hypen, replaces all other non-ASCII characters with a question mark and keeps extensions untouched.
+Fix bad filenames - tries to rename files so all characters are ASCII, replaces spaces with an underscore and periods with a hypen, replaces all other non-ASCII characters with a question mark and keeps extension untouched.
+
+## Examples
+```
+So m.a.n.y d.o.t.s.thing -> So_m-a-n-y_d-o-t-s.thing
+
+Ṱ̺̺̕o͞ ̷i̲̬͇̪͙n̝̗͕v̟̜̘̦͟o̶̙̰̠kè͚̮̺̪̹̱̤ ̖t̝͕̳̣̻̪͞h̼͓̲̦̳̘̲e͇̣̰̦̬͎ ̢̼̻̱̘h͚͎͙̜̣̲ͅi̦̲̣̰̤v̻͍e̺̭̳̪̰-m̢iͅn̖̺̞̲̯̰d̵̼̟͙̩̼̘̳.thing -> To_?invoke_?the_?hive-mind.thing
+
+Žluťoučký kůň.thing -> Zlutoucky_kun.thing
+
+Привет.thing -> Privet.thing
+
+Ω§E®Ŧ¥↑ıØÞÆẞÐªŊĦŁß©×.thing -> O?E(R)T?iOTHAESSD?NHLss(C)*.thing
+```
 
 ## Usage
   ./namefix {OPTIONS} [input...]
-
-    Namefix - fix bad filenames
-    Tries to rename files so all characters are ASCII, keeps extensions
-    untouched
 
   OPTIONS:
 
@@ -26,17 +35,17 @@ Fix bad filenames - tries to rename files so all characters are ASCII, replaces 
       -n[STR], --non-ASCII=[STR]        Replace remaining non-ASCII characters
                                         with STR - default replacement is '?'
       -c[NUM], --characters=[NUM]       The maximum length for the new filename
-                                        (without extension!) Default 64
+                                        (without extension!) default is 64
       -o[A/B], --override=[A/B]         Replace A with B before fixing filename
       -O[A/B],
       --exclusive-override=[A/B]        Only replace A with B, change nothing
                                         else
-      -k[PATH], --keep-path=[PATH]      Do not rename, make a copy with the new
-                                        name and put it in PATH
+      -k[PATH], --keep-path=[PATH]      Do not rename, make a copy with new name
+                                        and put it in PATH
       -K, --keep                        Do not rename, make a copy with new name
       -t[STR], --to-ASCII=[STR]         Test a string - transforms a UTF-8
                                         string into ASCII and prints it, does
-                                        not keep extensions
+                                        not keep extension
       --version                         Outputs the version
       -h, --help                        Display this help menu
       input...                          Input files
@@ -45,9 +54,13 @@ Fix bad filenames - tries to rename files so all characters are ASCII, replaces 
 
 ## Installation
 
-You need to have make, git and g++ installed.
-Than it is as simle as cloning this repo and running make. A namefix executable will be generated, place it wherever you like.
-You can run make install if you want to copy the executable to /usr/bin, make uninstall runs `rm /usr/bin/namefix` if you want to remove it.
+I plan to make an Arch PKGBUILD and also a Debian package sometime in the future. For now, you can build it from source.
+
+## Building from source
+You will need to have make, strip (binutils), git and g++ installed.
+Than it should be as simple as cloning this repo and running `make`. A namefix executable will be generated, place it wherever you like.
+You can run `make install` if you want to copy the executable to /usr/local/bin/,
+and `make uninstall` runs `rm /usr/local/bin/namefix` if you want to remove it.
 
 ```
 	git clone https://github.com/sukulent/namefix.git && cd namefix
@@ -90,7 +103,7 @@ It is done in these steps:
 - normalize into fully composed form
 - transliterate from Any into Latin
 - transliterate again from Any into ASCII
-- check for all remaining non-ASCII characters and replace them with '?'
+- check for all remaining non-ASCII characters and replace them with '?' (or as specified)
 - resize the name
 - replace spaces
 - replace periods
@@ -98,7 +111,7 @@ It is done in these steps:
 
 ### Other
 
-Using the [args] (https://github.com/Taywee/args) library for argument parsing.
+Using the [args](https://github.com/Taywee/args) library for argument parsing.
 
 
 ### License

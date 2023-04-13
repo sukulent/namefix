@@ -19,7 +19,7 @@
 int main(int argc, char **argv)
 {
 	// setting up the argument parser
-	args::ArgumentParser parser("Namefix - fix bad filenames\nTries to rename files so all characters are ASCII, keeps extensions untouched");
+	args::ArgumentParser parser("Namefix - fix bad filenames\nTries to rename files so all characters are ASCII, keeps extension untouched");
 
 	args::Flag verbose(parser, "verbose", "Verbose output", {'v', "verbose"}, false);
 	args::Flag verbose_long(parser, "verbose-long", "Verbose output - absolute paths", {'V', "verbose-long"}, false);
@@ -36,15 +36,15 @@ int main(int argc, char **argv)
 
 	args::ValueFlag<std::string> non_ascii_replacement(parser, "STR", ("Replace remaining non-ASCII characters with STR - default replacement is '" DEFAULT_NON_ASCII_REPLACEMENT "'"), {'n', "non-ASCII"}, DEFAULT_NON_ASCII_REPLACEMENT);
 
-	args::ValueFlag<u_int> characters(parser, "NUM", "The maximum length for the new filename (without extension!) default is" + std::to_string(DEFAULT_MAX_CHARACTERS), {'c', "characters"}, DEFAULT_MAX_CHARACTERS);
+	args::ValueFlag<u_int> characters(parser, "NUM", "The maximum length for the new filename (without extension!) default is " + std::to_string(DEFAULT_MAX_CHARACTERS), {'c', "characters"}, DEFAULT_MAX_CHARACTERS);
 
 	args::ValueFlag<std::string> overide(parser, "A/B", "Replace A with B before fixing filename", {'o', "override"});
 	args::ValueFlag<std::string> exclusive_overide(parser, "A/B", "Only replace A with B, change nothing else", {'O', "exclusive-override"});
 
-	args::ValueFlag<std::string> keep_path(parser, "PATH", "Do not rename, make a copy with the new name and put it in PATH", {'k', "keep-path"});
+	args::ValueFlag<std::string> keep_path(parser, "PATH", "Do not rename, make a copy with new name and put it in PATH", {'k', "keep-path"});
 	args::Flag keep(parser, "PATH", "Do not rename, make a copy with new name", {'K', "keep"}, false);
 
-	args::ValueFlag<std::string> to_ascii(parser, "STR", "Test a string - transforms a UTF-8 string into ASCII and prints it, does not keep extensions", {'t', "to-ASCII"});
+	args::ValueFlag<std::string> to_ascii(parser, "STR", "Test a string - transforms a UTF-8 string into ASCII and prints it, does not keep extension", {'t', "to-ASCII"});
 	args::Flag version(parser, "version", "Outputs the version", {"version"}, false);
 	args::HelpFlag help(parser, "help", "Display this help menu", {'h', "help"});
 
