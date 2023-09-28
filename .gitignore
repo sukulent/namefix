@@ -10,6 +10,10 @@ test/
 old/
 .vscode/
 
+# archives
+*.zip
+*.tar
+
 # other files
 confusablesSummary.txt
 notes.txt

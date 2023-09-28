@@ -1,5 +1,5 @@
 CXX = g++
-CXXFLAGS= -std=c++17 -Wall -Wpedantic -Wextra -licuuc -licui18n
+CXXFLAGS = -std=c++17 -Wall -Wpedantic -Wextra -licuuc -licui18n
 SOURCES = $(wildcard src/*.cpp)
 NAME = namefix
 
@@ -23,3 +23,5 @@ clean:
 	rm -f $(NAME)
 
 .PHONY: all sanitize install uninstall clean
+
+.DEFAULT: all
