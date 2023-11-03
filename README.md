@@ -1,4 +1,4 @@
-# Namefix 
+# Namefix
 Fix bad filenames - tries to rename files so all characters are ASCII, replaces spaces with an underscore and periods with a hypen, replaces all other non-ASCII characters with a question mark and keeps extension untouched.
 
 ## Examples
@@ -110,6 +110,11 @@ It is done in these steps:
 
 
 ### Other
+
+Currently, I think of this project as complete, but I may revisit it sometime in the future.
+I will try to fix bugs, so feel free to open an issue if you found any.
+The same goes for feature requests, feel free to open an issue and if it catches my eye, I might implement it.
+
 
 Using the [args](https://github.com/Taywee/args) library for argument parsing.
 
