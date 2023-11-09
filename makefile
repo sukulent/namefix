@@ -3,7 +3,7 @@ CXXFLAGS = -std=c++17 -Wall -Wpedantic -Wextra -licuuc -licui18n
 SOURCES = $(wildcard src/*.cpp)
 NAME = namefix
 
-all: namefix
+all: strip
 
 namefix: $(SOURCES)
 	$(CXX) $^ -o $@ $(CXXFLAGS)
