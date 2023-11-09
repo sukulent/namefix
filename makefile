@@ -5,10 +5,13 @@ NAME = namefix
 
 all: namefix
 
-namefix: $(SOURCES) 
-	$(CXX) $^ -o $@ $(CXXFLAGS) && strip $(NAME)
+namefix: $(SOURCES)
+	$(CXX) $^ -o $@ $(CXXFLAGS)
 
-sanitize: $(SOURCES) 
+strip: $(SOURCES)
+	$(CXX) $^ -o $(NAME) $(CXXFLAGS) && strip $(NAME)
+
+sanitize: $(SOURCES)
 	$(CXX) $^ -o $(NAME) $(CXXFLAGS) -g -fsanitize=leak
 
 install: namefix
