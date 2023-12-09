@@ -54,7 +54,18 @@ So m.a.n.y d.o.t.s.thing -> So_m-a-n-y_d-o-t-s.thing
 
 ## Installation
 
-I plan to make an Arch PKGBUILD and also a Debian package sometime in the future. For now, you can build it from source.
+PKGBUILD is now available in [AUR](https://aur.archlinux.org/packages/namefix)!
+
+Get it manually or use your AUR helper i.e.:
+```
+yay -S namefix
+```
+I plan to make ~~an Arch PKGBUILD and also~~ a Debian package sometime in the future. 
+
+## Known Bugs & Caveats
+
+- does not have any advanced logic detecting multiple extensions (you will need to use `-P`)
+
 
 ## Building from source
 You will need to have make, strip (binutils), git and g++ (gcc).
@@ -122,3 +133,7 @@ Using the [args](https://github.com/Taywee/args) library for argument parsing.
 ### License
 
 This program is lincesed under the GPL-3-or-later license.
+
+
+
+[AUR]: https://aur.archlinux.org/packages/namefix
