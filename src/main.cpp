@@ -135,7 +135,7 @@ int main(int argc, char **argv)
 				in_str = exclusive_overide.Get();
 
 			// read the instructions and fail if they are wrong
-			std::regex expression("(.+)\\/(.+)");
+			std::regex expression("(.+)\\/(.*)");
 			std::smatch in_match;
 			if (!std::regex_match(in_str, in_match, expression))
 			{
