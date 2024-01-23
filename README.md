@@ -26,6 +26,8 @@ So m.a.n.y d.o.t.s.thing -> So_m-a-n-y_d-o-t-s.thing
       -d, --dry-run                     Dry run, don't do anything, just print
                                         what would have been done (implies -v)
       -I, --ignore-errors               Do not stop when error is encountered
+      -e[NUM], --extensions=[NUM]       Set maximum number of extensions (that
+                                        will be untouchted) - default 2
       -D, --no-directory                Ignore directories
       -Y, --no-symlinks                 Ignore symlinks
       -s[STR], --spaces=[STR]           Replace spaces with STR
@@ -66,7 +68,7 @@ I plan to make ~~an Arch PKGBUILD and also~~ a Debian package sometime in the fu
 
 ## Known Bugs & Caveats
 
-- does not have any advanced logic detecting multiple extensions (you will need to use `-P`)
+- does not have any advanced logic detecting multiple extensions, uses system `std::filesystem::path::stem()`
 
 
 ## Building from source
@@ -92,13 +94,14 @@ Firstly, these flags are checked:
 
 Than for each file provided:
 - Fail if the file does not exist (if ignore-errors flag is not set)
+- Separate extensions
 - If any override flag is set, replace accordingly.
 - If exclusive-override flag is set, skip this, otherwise:
 	- convert to ASCII
 	- resize if bigger than character flag
 	- if no-spaces flag is not set, replace spaces
 	- if no-periods flag is not set, replace periods
-- The new path is constructed from original, new filename and original extension
+- The new path is constructed from original, new filename and original extensions
 - If report flag is set, print the file if new path differs from original, print absolute paths if --verbose-long flag is set, continue to next file.
 - If any verbose flag is set, print info and if original path and new path are the same, continue to next file.
 - If dry-run flag is set, skip this, otherwise:

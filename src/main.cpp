@@ -28,6 +28,7 @@ int main(int argc, char **argv)
 	args::Flag dry_run(parser, "dry-run", "Dry run, don't do anything, just print what would have been done (implies -v)", {'d', "dry-run"}, false);
 	args::Flag ignore_errors(parser, "ignore-errors", "Do not stop when error is encountered", {'I', "ignore-errors"}, false);
 
+	args::ValueFlag<u_int> max_extensions(parser, "NUM", "Set maximum number of extensions (that will be untouchted) - default " + std::to_string(DEFAULT_MAX_EXTENSION_COUNT), {'e', "extensions"}, DEFAULT_MAX_EXTENSION_COUNT);
 	args::Flag no_directory(parser, "no-directory", ("Ignore directories"), {'D', "no-directory"}, false);
 	args::Flag no_symlinks(parser, "no-symlinks", ("Ignore symlinks"), {'Y', "no-symlinks"}, false);
 
@@ -143,9 +144,32 @@ int main(int argc, char **argv)
 		}
 
 		// create path objects
-		std::filesystem::path original = iter;
-		std::string extension = original.extension();
-		std::string stem(original.stem().string());
+		std::filesystem::path original(iter);
+		std::filesystem::path stem_path(original);
+		std::vector<std::string> extension;
+		std::string extension_full;
+		u_int extension_count = 0;
+		// loop to strip all extensions
+		while (true)
+		{
+			extension.push_back(stem_path.extension());
+
+			// got them all or enough?
+			if (extension.at(extension_count).empty())
+				break;
+			if (extension_count + 1 == max_extensions.Get())
+				break;
+
+			stem_path = stem_path.stem().string();
+			extension_count++;
+		}
+
+		std::string stem(stem_path.stem().string());
+
+		for (auto it = extension.rbegin(); it != extension.rend(); ++it)
+		{
+			extension_full.append(*it);
+		}
 
 		// if override, replace accordingly
 		if (overide || exclusive_overide)
@@ -207,12 +231,12 @@ int main(int argc, char **argv)
 				return 1;
 			}
 			renamed.assign(keep_path.Get());
-			renamed.append(stem + extension);
+			renamed.append(stem + extension_full);
 		}
 		else
 		{
 			renamed.remove_filename();
-			renamed.append(stem + extension);
+			renamed.append(stem + extension_full);
 		}
 
 		// just report bad files
