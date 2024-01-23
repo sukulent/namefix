@@ -3,9 +3,17 @@
 All notable changes to this project will be documented in this file.
 
 ### [1.1.0] - 2024-01-23
-- Fix renaming & copying directories, add -D, --no-directory flag for ignoring, shorten error output
-- Fix renaming symlinks, add -Y, --no-symlinks flag for ignoring symlinks
-- Fix forgotten internal version number
+
+##### Added
+- -D, --no-directory flag for ignoring, shorten error output
+- -Y, --no-symlinks flag for ignoring symlinks
+- override flags now accept empty string as replacement
+
+##### Fixed
+- renaming & copying directories,
+- renaming & copying symlinks,
+- forgotten internal version number
+
 
 ### [1.0.1] - 2023-11-09
 
@@ -16,6 +24,6 @@ All notable changes to this project will be documented in this file.
 
 ### Initial release
 
-
+[1.1.0]: https://github.com/sukulent/namefix/releases/tag/v1.1.0
 [1.0.1]: https://github.com/sukulent/namefix/releases/tag/v1.0.1
 [1.0.0]: https://github.com/sukulent/namefix/releases/tag/v1.0.0
