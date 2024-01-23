@@ -32,6 +32,8 @@ int main(int argc, char **argv)
 	args::Flag no_directory(parser, "no-directory", ("Ignore directories"), {'D', "no-directory"}, false);
 	args::Flag no_symlinks(parser, "no-symlinks", ("Ignore symlinks"), {'Y', "no-symlinks"}, false);
 
+	args::Flag force_overwrite(parser, "force", "Force overwrite even if file exists", {'F',"force"}, false);
+
 	args::ValueFlag<std::string> spaces(parser, "STR", "Replace spaces with STR", {'s', "spaces"}, DEFAULT_SPACES_REPLACEMENT);
 	args::Flag no_spaces(parser, "no-spaces", ("Do not replace spaces - default replacement is '" DEFAULT_SPACES_REPLACEMENT "'"), {'S', "no-spaces"}, false);
 
@@ -281,7 +283,17 @@ int main(int argc, char **argv)
 			{
 				try
 				{
-					std::filesystem::copy(original, renamed, std::filesystem::copy_options::copy_symlinks | std::filesystem::copy_options::recursive);
+					if(force_overwrite.Get())
+					{
+					std::filesystem::copy(original, renamed, std::filesystem::copy_options::copy_symlinks
+							| std::filesystem::copy_options::recursive
+							| std::filesystem::copy_options::overwrite_existing
+							);
+					} else {
+					std::filesystem::copy(original, renamed, std::filesystem::copy_options::copy_symlinks
+							| std::filesystem::copy_options::recursive
+							);
+					}
 				}
 				catch (const std::filesystem::filesystem_error &e)
 				{

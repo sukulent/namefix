@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+### [1.2.0] - 2024--
+- Add -F, --force flag for enabling overwriting of existing files
+
 ### [1.1.0] - 2024-01-23
 
 ##### Added
@@ -16,7 +19,6 @@ All notable changes to this project will be documented in this file.
 
 
 ### [1.0.1] - 2023-11-09
-
 - Add target which doesn't strip the exectuable
 - Move PKGBUILD to separate branch
 
