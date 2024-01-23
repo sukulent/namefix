@@ -26,7 +26,8 @@ int main(int argc, char **argv)
 
 	args::Flag report(parser, "report", "Just report all files not conforming, -V for absolute paths", {'r', "report"}, false);
 	args::Flag dry_run(parser, "dry-run", "Dry run, don't do anything, just print what would have been done (implies -v)", {'d', "dry-run"}, false);
-	args::Flag ignore_errors(parser, "ignore-errors", "Do not stop when error is encountered", {'I',"ignore-errors"}, false);
+	args::Flag ignore_errors(parser, "ignore-errors", "Do not stop when error is encountered", {'I', "ignore-errors"}, false);
+	args::Flag no_symlinks(parser, "no-symlinks", ("Ignore symlinks"), {'Y', "no-symlinks"}, false);
 
 	args::ValueFlag<std::string> spaces(parser, "STR", "Replace spaces with STR", {'s', "spaces"}, DEFAULT_SPACES_REPLACEMENT);
 	args::Flag no_spaces(parser, "no-spaces", ("Do not replace spaces - default replacement is '" DEFAULT_SPACES_REPLACEMENT "'") , {'S', "no-spaces"}, false);
@@ -106,8 +107,22 @@ int main(int argc, char **argv)
 	// go through input files
 	for (auto const &iter : input_file.Get())
 	{
-		// check if file exists
-		if (!std::filesystem::exists(iter))
+		// check if file exists and if it's a symlink
+		if (std::filesystem::is_symlink(iter))
+		{
+			if (no_symlinks.Get())
+			{
+				if (verbose_long || custom_verbose)
+					std::cout << iter << "\t is a symlink, skipping" << std::endl;
+				continue;
+			}
+			else
+			{
+				if (verbose_long || custom_verbose)
+					std::cout << iter << "\t <- warning, is a symlink" << std::endl;
+			}
+		}
+		else if (!std::filesystem::exists(iter))
 		{
 			std::cerr << "File \"" << iter << "\" not found" << std::endl;
 			if (ignore_errors)
@@ -228,11 +243,12 @@ int main(int argc, char **argv)
 		// rename the file (if we are not running dry)
 		if (!dry_run)
 		{
+			// or copy it
 			if (keep_path || keep)
 			{
 				try
 				{
-					std::filesystem::copy_file(original, renamed, std::filesystem::copy_options::copy_symlinks);
+					std::filesystem::copy(original, renamed, std::filesystem::copy_options::copy_symlinks);
 				}
 				catch (const std::filesystem::filesystem_error &e)
 				{

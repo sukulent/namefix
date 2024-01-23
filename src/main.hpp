@@ -31,9 +31,9 @@
 #include <unicode/normalizer2.h>
 
 // defines
-#define NAMEFIX_VERSION "1.0.0"
+#define NAMEFIX_VERSION "1.1.0"
 #define NAMEFIX_VERSION_MAJOR 1
-#define NAMEFIX_VERSION_MINOR 0
+#define NAMEFIX_VERSION_MINOR 1
 #define NAMEFIX_VERSION_PATCH 0
 
 #define DEFAULT_MAX_CHARACTERS 64
