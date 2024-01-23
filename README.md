@@ -15,7 +15,7 @@ So m.a.n.y d.o.t.s.thing -> So_m-a-n-y_d-o-t-s.thing
 ```
 
 ## Usage
- ./namefix {OPTIONS} [input...]
+  ./namefix {OPTIONS} [input...]
 
   OPTIONS:
 
@@ -26,6 +26,7 @@ So m.a.n.y d.o.t.s.thing -> So_m-a-n-y_d-o-t-s.thing
       -d, --dry-run                     Dry run, don't do anything, just print
                                         what would have been done (implies -v)
       -I, --ignore-errors               Do not stop when error is encountered
+      -D, --no-directory                Ignore directories
       -Y, --no-symlinks                 Ignore symlinks
       -s[STR], --spaces=[STR]           Replace spaces with STR
       -S, --no-spaces                   Do not replace spaces - default

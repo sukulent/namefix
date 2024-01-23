@@ -3,6 +3,7 @@
 All notable changes to this project will be documented in this file.
 
 ### [1.1.0] - 2024-01-23
+- Fix renaming & copying directories, add -D, --no-directory flag for ignoring, shorten error output
 - Fix renaming symlinks, add -Y, --no-symlinks flag for ignoring symlinks
 - Fix forgotten internal version number
 

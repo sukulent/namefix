@@ -27,10 +27,12 @@ int main(int argc, char **argv)
 	args::Flag report(parser, "report", "Just report all files not conforming, -V for absolute paths", {'r', "report"}, false);
 	args::Flag dry_run(parser, "dry-run", "Dry run, don't do anything, just print what would have been done (implies -v)", {'d', "dry-run"}, false);
 	args::Flag ignore_errors(parser, "ignore-errors", "Do not stop when error is encountered", {'I', "ignore-errors"}, false);
+
+	args::Flag no_directory(parser, "no-directory", ("Ignore directories"), {'D', "no-directory"}, false);
 	args::Flag no_symlinks(parser, "no-symlinks", ("Ignore symlinks"), {'Y', "no-symlinks"}, false);
 
 	args::ValueFlag<std::string> spaces(parser, "STR", "Replace spaces with STR", {'s', "spaces"}, DEFAULT_SPACES_REPLACEMENT);
-	args::Flag no_spaces(parser, "no-spaces", ("Do not replace spaces - default replacement is '" DEFAULT_SPACES_REPLACEMENT "'") , {'S', "no-spaces"}, false);
+	args::Flag no_spaces(parser, "no-spaces", ("Do not replace spaces - default replacement is '" DEFAULT_SPACES_REPLACEMENT "'"), {'S', "no-spaces"}, false);
 
 	args::ValueFlag<std::string> periods(parser, "STR", "Replace periods with STR", {'p', "periods"}, DEFAULT_PERIODS_REPLACEMENT);
 	args::Flag no_periods(parser, "no-periods", ("Do not replace periods - default replacement is '" DEFAULT_PERIODS_REPLACEMENT "'"), {'P', "no-periods"}, false);
@@ -107,6 +109,13 @@ int main(int argc, char **argv)
 	// go through input files
 	for (auto const &iter : input_file.Get())
 	{
+		// might be a directory
+		if (std::filesystem::is_directory(iter))
+		{
+			if (no_directory.Get())
+				continue;
+		}
+
 		// check if file exists and if it's a symlink
 		if (std::filesystem::is_symlink(iter))
 		{
@@ -248,11 +257,11 @@ int main(int argc, char **argv)
 			{
 				try
 				{
-					std::filesystem::copy(original, renamed, std::filesystem::copy_options::copy_symlinks);
+					std::filesystem::copy(original, renamed, std::filesystem::copy_options::copy_symlinks | std::filesystem::copy_options::recursive);
 				}
 				catch (const std::filesystem::filesystem_error &e)
 				{
-					std::cerr << "Error while copying " << original << " -> " << renamed << " -- " << e.what() << std::endl;
+					std::cerr << e.what() << std::endl;
 					if (ignore_errors)
 					{
 						error_num++;
@@ -269,7 +278,7 @@ int main(int argc, char **argv)
 				}
 				catch (const std::filesystem::filesystem_error &e)
 				{
-					std::cerr << "Error while renaming " << original << " -> " << renamed << " -- " << e.what() << std::endl;
+					std::cerr << e.what() << std::endl;
 					if (ignore_errors)
 					{
 						error_num++;
