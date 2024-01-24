@@ -1,0 +1,57 @@
+name: "Namefix"
+arch: "amd64"
+platform: "linux"
+version: "1.1.0"
+section: "default"
+priority: "extra"
+replaces:
+provides:
+depends:
+- icu
+- gcc-libs
+- glibc
+recommends:
+suggests:
+conflicts:
+maintainer: "sukulent"
+description: "Fix bad filenames"
+vendor: "sukulent"
+homepage: "https://github.com/sukulent/namefix"
+license: "GPL-3-or-later"
+
+contents:
+- src: ./namefix/namefix
+  dst: /usr/bin/namefix
+  file_info:
+    mode: 0700
+
+- src: ./namefix/README.md
+  dst: /usr/share/doc/namefix
+  file_info:
+    mode: 0700
+
+# - src: ./foobar.conf
+#   dst: /etc/foobar.conf
+#   type: config
+# - src: /usr/bin/foo
+#   dst: /sbin/foo
+#   type: symlink
+
+overrides:
+  deb:
+    depends:
+    - libicu-dev
+    - gcc
+  rpm:
+    depends:
+    - icu
+    - gcc
+
+#   rpm:
+#     scripts:
+#       preinstall: ./scripts/preinstall.sh
+#       postremove: ./scripts/postremove.sh
+#   deb:
+#     scripts:
+#       postinstall: ./scripts/postinstall.sh
+#       preremove: ./scripts/preremove.sh

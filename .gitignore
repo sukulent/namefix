@@ -2,5 +2,5 @@
 # ignore everything
 /*
 # except
-!/PKGBUILD
-!/.SRCINFO
+!/gen.sh
+!/nfpm.yaml
