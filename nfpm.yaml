@@ -20,15 +20,15 @@ homepage: "https://github.com/sukulent/namefix"
 license: "GPL-3-or-later"
 
 contents:
-- src: ./namefix/namefix
+- src: ./namefix-build/namefix
   dst: /usr/bin/namefix
   file_info:
-    mode: 0700
+    mode: 0755
 
-- src: ./namefix/README.md
+- src: ./namefix-build/README.md
   dst: /usr/share/doc/namefix
   file_info:
-    mode: 0700
+    mode: 0644
 
 # - src: ./foobar.conf
 #   dst: /etc/foobar.conf
@@ -40,12 +40,10 @@ contents:
 overrides:
   deb:
     depends:
-    - libicu-dev
-    - gcc
+    - libicu72
   rpm:
     depends:
     - icu
-    - gcc
 
 #   rpm:
 #     scripts:
