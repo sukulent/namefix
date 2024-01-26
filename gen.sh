@@ -2,6 +2,11 @@
 
 set -eo pipefail
 
+if  ! command -v nfpm 2>&1 1> /dev/null  ; then
+	echo "Error: nfpm not installed"
+	exit 1
+fi
+
 if  [[ ( "deb" != "$1"  &&   "rpm" != "$1" ) || -z $1 ]] ; then
 	echo "Error: Specify target: rpm or deb"
 	exit 1
@@ -34,12 +39,12 @@ rm sha.txt
 echo "Checksums OK, unpacking... "
 tar -zxf "namefix-$pkgver.tar.gz"
 
-mv "namefix-$pkgver" namefix
+mv "namefix-$pkgver" namefix-build
 
-cd namefix
+cd namefix-build
 
 echo "Compiling..."
-make namefix
+make
 
 cd ..
 
@@ -53,6 +58,8 @@ else
 	echo "Specify target: rpm or deb"
 	exit 1
 fi
+
+rm -r namefix-build
 
 exit 0
 
