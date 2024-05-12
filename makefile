@@ -20,7 +20,9 @@ install: namefix
 	install -Dm644 ./man/namefix.1 "/usr/local/share/man/man1/namefix.1"
 
 uninstall:
-	rm /usr/local/bin/namefix
+	rm '/usr/local/bin/namefix'
+	rm '/usr/local/share/doc/namefix'
+	rm '/usr/local/share/man/man1/namefix.1'
 
 clean:
 	rm -f $(NAME)

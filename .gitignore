@@ -14,6 +14,7 @@ old/
 *.zip
 *.tar
 *.tar.gz
+*.pkg.tar.zst
 *.rpm
 *.deb
 
