@@ -2,8 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
-### [1.2.0] - 2024--
-- Add -F, --force flag for enabling overwriting of existing files
+### [1.2.0] - 2024-05-12
+
+##### Added
+- -F, --force flag for enabling overwriting of existing files
+- manual page
 
 ### [1.1.0] - 2024-01-23
 
@@ -26,6 +29,7 @@ All notable changes to this project will be documented in this file.
 
 ### Initial release
 
+[1.2.0]: https://github.com/sukulent/namefix/releases/tag/v1.2.0
 [1.1.0]: https://github.com/sukulent/namefix/releases/tag/v1.1.0
 [1.0.1]: https://github.com/sukulent/namefix/releases/tag/v1.0.1
 [1.0.0]: https://github.com/sukulent/namefix/releases/tag/v1.0.0

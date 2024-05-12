@@ -15,9 +15,9 @@ sanitize: $(SOURCES)
 	$(CXX) $^ -o $(NAME) $(CXXFLAGS) -g -fsanitize=leak
 
 install: namefix
-	cp namefix /usr/local/bin/
-	chown root:root /usr/local/bin/namefix
-	chmod 755 /usr/local/bin/namefix
+	install -Dm755 ./namefix "/usr/local/bin/namefix"
+	install -Dm644 ./README.md "/usr/local/share/doc/namefix"
+	install -Dm644 ./man/namefix.1 "/usr/local/share/man/man1/namefix.1"
 
 uninstall:
 	rm /usr/local/bin/namefix

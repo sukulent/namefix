@@ -3,13 +3,15 @@ Fix bad filenames - tries to rename files so all characters are ASCII, replaces 
 
 ## Examples
 ```
-Žluťoučký kůň.thing -> Zlutoucky_kun.thing
+So m.a.n.y d.o.t.s.thing -> So_m-a-n-y_d.o.t.s.thing
 
-Привет.thing -> Privet.thing
+Ṱ̺̺̕o͞ ̷i̲̬͇̪͙n̝̗͕v̟̜̘̦͟o̶̙̰̠kè͚̮̺̪̹̱̤ ̖t̝͕̳̣̻̪͞h̼͓̲̦̳̘̲e͇̣̰̦̬͎ ̢̼̻̱̘h͚͎͙̜̣̲ͅi̦̲̣̰̤v̻͍e̺̭̳̪̰-m̢iͅn̖̺̞̲̯̰d̵̼̟͙̩̼̘̳.thing -> To_?invoke_?the_?hive-mind.thing
+
+Žluťoučký kůň.thing -> Zlutoucky_kun.thing
 
 Ω§E®Ŧ¥↑ıØÞÆẞÐªŊĦŁß©×.thing -> O?E(R)T?iOTHAESSD?NHLss(C)*.thing
 
-Ṱ̺̺̕o͞ ̷i̲̬͇̪͙n̝̗͕v̟̜̘̦͟o̶̙̰̠kè͚̮̺̪̹̱̤ ̖t̝͕̳̣̻̪͞h̼͓̲̦̳̘̲e͇̣̰̦̬͎ ̢̼̻̱̘h͚͎͙̜̣̲ͅi̦̲̣̰̤v̻͍e̺̭̳̪̰-m̢iͅn̖̺̞̲̯̰d̵̼̟͙̩̼̘̳.thing -> To_?invoke_?the_?hive-mind.thing
+Привет.thing -> Privet.thing
 ```
 
 ## Usage
@@ -25,9 +27,10 @@ Fix bad filenames - tries to rename files so all characters are ASCII, replaces 
                                         what would have been done (implies -v)
       -I, --ignore-errors               Do not stop when error is encountered
       -e[NUM], --extensions=[NUM]       Set maximum number of extensions (that
-                                        will be untouchted) - default 2
+                                        will be untouchted) - default 4
       -D, --no-directory                Ignore directories
       -Y, --no-symlinks                 Ignore symlinks
+      -F, --force                       Force overwrite even if file exists
       -s[STR], --spaces=[STR]           Replace spaces with STR
       -S, --no-spaces                   Do not replace spaces - default
                                         replacement is '_'
@@ -50,6 +53,7 @@ Fix bad filenames - tries to rename files so all characters are ASCII, replaces 
                                         not keep extension
       --version                         Outputs the version
       -h, --help                        Display this help menu
+
       input...                          Input files
       "--" can be used to terminate flag options and force all following
       arguments to be treated as positional options
@@ -66,8 +70,6 @@ I plan to make ~~an Arch PKGBUILD and also~~ a Debian package sometime in the fu
 
 ## Known Bugs & Caveats
 
-- the version number `--version` option prints differs from reality if installed trough testing deb pkg, but the executable does not change, bug in args lib? todo debug I guess
-- option to force overwriting is kinda worked on
 - does not have any advanced logic detecting multiple extensions, uses system `std::filesystem::path::stem()` - look at option `-e` for maximum number of extensions cut off before name-fixing begins
 
 
