@@ -1,10 +1,8 @@
 # Namefix
-Fix bad filenames - tries to rename files so all characters are ASCII, replaces spaces with an underscore and periods with a hypen, replaces all other non-ASCII characters with a question mark and keeps extension untouched.
+Fix bad filenames - tries to rename files so all characters are ASCII, replaces spaces with an underscore and periods with a hypen, replaces all other non-ASCII characters with a question mark and keeps extension untouched, all of that configurable through bunch of options.
 
 ## Examples
 ```
-So m.a.n.y d.o.t.s.thing -> So_m-a-n-y_d-o-t-s.thing
-
 Žluťoučký kůň.thing -> Zlutoucky_kun.thing
 
 Привет.thing -> Privet.thing
@@ -15,7 +13,7 @@ So m.a.n.y d.o.t.s.thing -> So_m-a-n-y_d-o-t-s.thing
 ```
 
 ## Usage
-  ./namefix {OPTIONS} [input...]
+  namefix {OPTIONS} [input...]
 
   OPTIONS:
 
@@ -68,7 +66,9 @@ I plan to make ~~an Arch PKGBUILD and also~~ a Debian package sometime in the fu
 
 ## Known Bugs & Caveats
 
-- does not have any advanced logic detecting multiple extensions, uses system `std::filesystem::path::stem()`
+- the version number `--version` option prints differs from reality if installed trough testing deb pkg, but the executable does not change, bug in args lib? todo debug I guess
+- option to force overwriting is kinda worked on
+- does not have any advanced logic detecting multiple extensions, uses system `std::filesystem::path::stem()` - look at option `-e` for maximum number of extensions cut off before name-fixing begins
 
 
 ## Building from source

@@ -13,6 +13,9 @@ old/
 # archives
 *.zip
 *.tar
+*.tar.gz
+*.rpm
+*.deb
 
 # other files
 notes.txt
