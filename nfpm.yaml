@@ -1,7 +1,7 @@
 name: "Namefix"
 arch: "amd64"
 platform: "linux"
-version: "1.1.0"
+version: "1.2.0"
 section: "default"
 priority: "extra"
 replaces:
@@ -27,6 +27,11 @@ contents:
 
 - src: ./namefix-build/README.md
   dst: /usr/share/doc/namefix
+  file_info:
+    mode: 0644
+
+- src: ./namefix-build/man/namefix.1
+  dst: /usr/share/man/man1/namefix.1
   file_info:
     mode: 0644
 
