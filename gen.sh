@@ -16,7 +16,7 @@ if  ! command -v nfpm 2>&1 1> /dev/null  ; then
 fi
 
 # check if we know what we should do
-if  [[ ( "deb" != "$1"  &&   "rpm" != "$1" ) || -z $1 ]] ; then
+if  [[ ( "deb" != "$1"  &&   "rpm" != "$1" ) || -z "$1" ]] ; then
 	echo "error: specify target: rpm or deb"
 	exit 1
 fi
@@ -28,14 +28,14 @@ pkgname=namefix
 if [[ -f "v$pkgver" || -f "namefix-$pkgver.tar.gz" ]] ; then
 	echo "using existing namefix archive..."
 else
-	wget https://codeload.github.com/sukulent/namefix/tar.gz/refs/tags/v$pkgver
+	wget "https://codeload.github.com/sukulent/namefix/tar.gz/refs/tags/v$pkgver"
 fi
 
 nfpm_deb="nfpm_2.37.1_amd64.deb"
 
 # get nfpm
 if [[ "nfpm" == "$2" ]] ; then
-	if [[ -f $nfpm_deb ]] ; then
+	if [[ -f "$nfpm_deb" ]] ; then
 		echo "using existing nfpm archive..."
 	else
 		wget "https://github.com/goreleaser/nfpm/releases/download/v2.37.1/nfpm_2.37.1_amd64.deb"
@@ -49,7 +49,7 @@ if [[ "nfpm" == "$2" ]] ; then
 		echo "error: sha256 missmatch"
 		exit 1
 	fi
-	ar x $nfpm_deb data.tar.gz
+	ar x "$nfpm_deb" data.tar.gz
 	tar -zxf data.tar.gz ./usr/bin/nfpm
 	mv usr/bin/nfpm nfpm
 	rm -r data.tar.gz usr
@@ -57,8 +57,8 @@ fi
 
 
 #rename
-if [[ -f v$pkgver ]] ; then
-	mv v$pkgver namefix-$pkgver.tar.gz
+if [[ -f "v$pkgver" ]] ; then
+	mv "v$pkgver" "namefix-$pkgver.tar.gz"
 fi
 
 # prepare checksum

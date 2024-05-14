@@ -4,3 +4,5 @@
 # except
 !/gen.sh
 !/nfpm.yaml
+!/README.md
+
