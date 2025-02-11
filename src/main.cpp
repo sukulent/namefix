@@ -40,6 +40,8 @@ int main(int argc, char **argv)
 	args::ValueFlag<std::string> periods(parser, "STR", "Replace periods with STR", {'p', "periods"}, DEFAULT_PERIODS_REPLACEMENT);
 	args::Flag no_periods(parser, "no-periods", ("Do not replace periods - default replacement is '" DEFAULT_PERIODS_REPLACEMENT "'"), {'P', "no-periods"}, false);
 
+	args::Flag no_smart(parser, "no-smart", ("Disable QoL '_-_' fix"), {"smart"}, false);
+
 	args::ValueFlag<std::string> non_ascii_replacement(parser, "STR", ("Replace remaining non-ASCII characters with STR - default replacement is '" DEFAULT_NON_ASCII_REPLACEMENT "'"), {'n', "non-ASCII"}, DEFAULT_NON_ASCII_REPLACEMENT);
 
 	args::ValueFlag<u_int> characters(parser, "NUM", "The maximum length for the new filename (without extension!) default is " + std::to_string(DEFAULT_MAX_CHARACTERS), {'c', "characters"}, DEFAULT_MAX_CHARACTERS);
@@ -214,6 +216,14 @@ int main(int argc, char **argv)
 			if (!no_spaces)
 			{
 				changeSpaces(stem, spaces.Get());
+			}
+
+			// fix _-_ conversion pass
+			if (!no_smart)
+			{
+				std::regex regex("_-_");
+				const std::string replacement = "-";
+				stem = std::regex_replace(stem, regex, replacement);
 			}
 
 			// period conversion pass
