@@ -43,6 +43,9 @@
 #define DEFAULT_MAX_EXTENSION_COUNT 4
 
 
+const std::vector<std::string> smart_fixes_hyphen = {"-_-","-_","_-"};
+const std::vector<std::string> smart_fixes_underscore = {",_","_,","__","\\._","_\\."};
+
 // make ASCII from input
 std::string makeASCII(const std::string &input, const std::string &placeholder);
 

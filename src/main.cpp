@@ -40,7 +40,7 @@ int main(int argc, char **argv)
 	args::ValueFlag<std::string> periods(parser, "STR", "Replace periods with STR", {'p', "periods"}, DEFAULT_PERIODS_REPLACEMENT);
 	args::Flag no_periods(parser, "no-periods", ("Do not replace periods - default replacement is '" DEFAULT_PERIODS_REPLACEMENT "'"), {'P', "no-periods"}, false);
 
-	args::Flag no_smart(parser, "no-smart", ("Disable QoL '_-_' fix"), {"smart"}, false);
+	args::Flag no_smart(parser, "no-smart", ("Disable QoL fixes"), {"no-smart"}, false);
 
 	args::ValueFlag<std::string> non_ascii_replacement(parser, "STR", ("Replace remaining non-ASCII characters with STR - default replacement is '" DEFAULT_NON_ASCII_REPLACEMENT "'"), {'n', "non-ASCII"}, DEFAULT_NON_ASCII_REPLACEMENT);
 
@@ -218,12 +218,19 @@ int main(int argc, char **argv)
 				changeSpaces(stem, spaces.Get());
 			}
 
-			// fix _-_ conversion pass
+			// smart fix conversion pass
 			if (!no_smart)
 			{
-				std::regex regex("_-_");
-				const std::string replacement = "-";
-				stem = std::regex_replace(stem, regex, replacement);
+				for (auto fix = smart_fixes_hyphen.begin(); fix != smart_fixes_hyphen.end(); fix++) {
+					std::regex regex(fix->c_str());
+					const std::string replacement = "-";
+					stem = std::regex_replace(stem, regex, replacement);
+				  }
+				for (auto fix = smart_fixes_underscore.begin(); fix != smart_fixes_underscore.end(); fix++) {
+					std::regex regex(fix->c_str());
+					const std::string replacement = "_";
+					stem = std::regex_replace(stem, regex, replacement);
+				  }
 			}
 
 			// period conversion pass
