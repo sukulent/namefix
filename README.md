@@ -1,5 +1,5 @@
 # Namefix
-Fix bad filenames - tries to rename files so all characters are ASCII, replaces spaces with an underscore and periods with a hypen, replaces all other non-ASCII characters with a question mark and keeps extension untouched, all of that configurable through bunch of options.
+Fix bad filenames - tries to rename files so all characters are ASCII, replaces spaces with an underscore and periods with a hypen, replaces all other non-ASCII characters with a question mark and keeps number of extensions untouched, all of that configurable through bunch of options.
 
 ## Examples
 ```
@@ -37,6 +37,7 @@ So m.a.n.y d.o.t.s.thing -> So_m-a-n-y_d.o.t.s.thing
       -p[STR], --periods=[STR]          Replace periods with STR
       -P, --no-periods                  Do not replace periods - default
                                         replacement is '-'
+      --no-smart                        Disable QoL fixes
       -n[STR], --non-ASCII=[STR]        Replace remaining non-ASCII characters
                                         with STR - default replacement is '?'
       -c[NUM], --characters=[NUM]       The maximum length for the new filename
@@ -66,10 +67,11 @@ Get it manually or use your AUR helper i.e.:
 ```
 yay -S namefix
 ```
-I plan to make ~~an Arch PKGBUILD and also~~ a Debian package sometime in the future. 
+I plan to make ~~an Arch PKGBUILD and also~~ a Debian package sometime in the future.
 
 ## Known Bugs & Caveats
 
+- the 'smart fixes' are special replacements of `-_-`, `,_`, etc. with `-` or `_`
 - does not have any advanced logic detecting multiple extensions, uses system `std::filesystem::path::stem()` - look at option `-e` for maximum number of extensions cut off before name-fixing begins
 
 
@@ -102,6 +104,7 @@ Than for each file provided:
 	- convert to ASCII
 	- resize if bigger than character flag
 	- if no-spaces flag is not set, replace spaces
+	- if no-smart flag is not set, replace according to smart_fixes
 	- if no-periods flag is not set, replace periods
 - The new path is constructed from original, new filename and original extensions
 - If report flag is set, print the file if new path differs from original, print absolute paths if --verbose-long flag is set, continue to next file.

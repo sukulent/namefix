@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+### 1.3.0
+- add smart fixes and corresponding --no-smart flag
+- fix wrong version
+
 ### [1.2.0] - 2024-05-12
 
 ##### Added
