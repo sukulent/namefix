@@ -1,15 +1,15 @@
 # Namefix
-Fix bad filenames - tries to rename files so all characters are ASCII, replaces spaces with an underscore and periods with a hypen, replaces all other non-ASCII characters with a question mark and keeps number of extensions untouched, all of that configurable through bunch of options.
+Fix bad filenames - tries to rename files so all characters are ASCII, replaces spaces with an underscore and periods with a hypen, replaces all other non-ASCII characters with a underscore and keeps number of extensions untouched, all of that configurable through bunch of options.
 
 ## Examples
 ```
 So m.a.n.y d.o.t.s.thing -> So_m-a-n-y_d.o.t.s.thing
 
-Ṱ̺̺̕o͞ ̷i̲̬͇̪͙n̝̗͕v̟̜̘̦͟o̶̙̰̠kè͚̮̺̪̹̱̤ ̖t̝͕̳̣̻̪͞h̼͓̲̦̳̘̲e͇̣̰̦̬͎ ̢̼̻̱̘h͚͎͙̜̣̲ͅi̦̲̣̰̤v̻͍e̺̭̳̪̰-m̢iͅn̖̺̞̲̯̰d̵̼̟͙̩̼̘̳.thing -> To_?invoke_?the_?hive-mind.thing
+Ṱ̺̺̕o͞ ̷i̲̬͇̪͙n̝̗͕v̟̜̘̦͟o̶̙̰̠kè͚̮̺̪̹̱̤ ̖t̝͕̳̣̻̪͞h̼͓̲̦̳̘̲e͇̣̰̦̬͎ ̢̼̻̱̘h͚͎͙̜̣̲ͅi̦̲̣̰̤v̻͍e̺̭̳̪̰-m̢iͅn̖̺̞̲̯̰d̵̼̟͙̩̼̘̳.thing -> To_invoke_the_hive-mind.thing
 
 Žluťoučký kůň.thing -> Zlutoucky_kun.thing
 
-Ω§E®Ŧ¥↑ıØÞÆẞÐªŊĦŁß©×.thing -> O?E(R)T?iOTHAESSD?NHLss(C)*.thing
+Ω§E®Ŧ¥↑ıØÞÆẞÐªŊĦŁß©×.thing -> O_E(R)T_iOTHAESSD_NHLss(C)*.thing
 
 Привет.thing -> Privet.thing
 ```
@@ -39,7 +39,7 @@ So m.a.n.y d.o.t.s.thing -> So_m-a-n-y_d.o.t.s.thing
                                         replacement is '-'
       --no-smart                        Disable QoL fixes
       -n[STR], --non-ASCII=[STR]        Replace remaining non-ASCII characters
-                                        with STR - default replacement is '?'
+                                        with STR - default replacement is '_'
       -c[NUM], --characters=[NUM]       The maximum length for the new filename
                                         (without extension!) default is 64
       -o[A/B], --override=[A/B]         Replace A with B before fixing filename
@@ -124,7 +124,7 @@ It is done in these steps:
 - normalize into fully composed form
 - transliterate from Any into Latin
 - transliterate again from Any into ASCII
-- check for all remaining non-ASCII characters and replace them with '?' (or as specified)
+- check for all remaining non-ASCII characters and replace them with '_' (or as specified)
 - resize the name
 - replace spaces
 - replace periods

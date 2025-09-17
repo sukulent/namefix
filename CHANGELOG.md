@@ -5,6 +5,7 @@ All notable changes to this project will be documented in this file.
 ### 1.3.0
 - add smart fixes and corresponding --no-smart flag
 - fix wrong version
+- change default non ASCII replacement from ? to _
 
 ### [1.2.0] - 2024-05-12
 
