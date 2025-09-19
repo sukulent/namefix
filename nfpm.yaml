@@ -45,7 +45,7 @@ contents:
 overrides:
   deb:
     depends:
-    - libicu72
+    - libicu??
   rpm:
     depends:
     - icu

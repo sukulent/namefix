@@ -96,6 +96,11 @@ else
 fi
 
 if [[ "deb" == "$1" ]] ; then
+	# replace libicu version with the one installed
+	if ! grep "libicu[0-9][0-9]" "nfpm.yaml" > /dev/null 2>&1; then
+		LIBICU_PKG=$(dpkg --list "libicu*" | grep "libicu[0-9][0-9]" | sed "s/\(ii  \)\(.*\)\(\:.*$\)/\2/")
+		sed -i -e "s/libicu??/$LIBICU_PKG/" "nfpm.yaml"
+	fi
 	$nfpm_bin pkg --packager deb
 elif [[ "rpm" == "$1" ]] ; then
 	$nfpm_bin pkg --packager rpm
