@@ -1,6 +1,7 @@
 # Maintainer: sukulent
+# shellcheck disable=SC2034 # disable unused variables warning
 pkgname='namefix'
-pkgver="1.2.0"
+pkgver="1.3.0"
 pkgrel="1"
 # epoch=
 pkgdesc="Fix bad filenames"
@@ -21,7 +22,7 @@ makedepends=('make' 'binutils' 'gcc')
 # changelog=
 source=("$pkgname-$pkgver.tar.gz::https://codeload.github.com/sukulent/namefix/tar.gz/refs/tags/v$pkgver")
 # noextract=()
-sha256sums=(8f72618045340dd92948b91d4e6cb8e2bd6f4ee07e739f37b12b56f1079bd5b7)
+sha256sums=(172ae75d01dc32e1376767b6b942a51d3154ae182f93e770e9c45d4d0a4712c1)
 # validpgpkeys=()
 
 
