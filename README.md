@@ -1,5 +1,5 @@
 # Namefix
-Fix bad filenames - tries to rename files so all characters are ASCII, replaces spaces with an underscore and periods with a hypen, replaces all other non-ASCII characters with a underscore and keeps number of extensions untouched, all of that configurable through bunch of options.
+Fix bad filenames - tries to rename files so all characters are ASCII, replaces spaces with an underscore and periods with a hypen, replaces all other non-ASCII characters with an underscore and keeps number of extensions untouched, all of that configurable through bunch of options.
 
 ## Examples
 ```

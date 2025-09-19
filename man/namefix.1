@@ -2,7 +2,7 @@
 .\" https://github.com/sukulent/namefix
 .\" by sukulent
 
-.TH namefix 1 "12 May 2024" "version 1.2.0" "The Namefix man page"
+.TH namefix 1 "19 September 2025" "version 1.3.0" "The Namefix man page"
 
 .SH NAME
 namefix - fix bad filenames
@@ -11,10 +11,10 @@ namefix - fix bad filenames
 namefix {OPTIONS} [input...]
 
 .SH DESCRIPTION
-Tries to rename files so all characters are ASCII, replaces spaces with an underscore and periods with a hypen, replaces all other non-ASCII characters with a question mark and keeps extension untouched, all of that configurable through bunch of options.
+Tries to rename files so all characters are ASCII, replaces spaces with an underscore and periods with a hypen, replaces all other non-ASCII characters with an underscore and keeps number of extensions untouched, all of that configurable through bunch of options.
 
 .SH OPTIONS
-Typical options like -v -e5 --override='A/B' or you can join them like -vIDe5 but only the last one can take additional argument
+Typical options used like -v -e5 --override='A/B' or you can clump them together -vIDe5 but only the last one can take an argument
 
 
 .B -v, --verbose
@@ -27,7 +27,7 @@ Typical options like -v -e5 --override='A/B' or you can join them like -vIDe5 bu
 
 .B  -r, --report
 
-	Just report all files not conforming, -V for absolute paths
+	Just report all files not conforming
 
 .B  -d, --dry-run
 
@@ -69,9 +69,13 @@ Typical options like -v -e5 --override='A/B' or you can join them like -vIDe5 bu
 
 	Do not replace periods - default replacement is '-'
 
+.B --no-smart
+
+	Disable QoL fixes
+
 .B  -n[STR], --non-ASCII=[STR]
 
-	Replace remaining non-ASCII characters with STR - default replacement is '?'
+	Replace remaining non-ASCII characters with STR - default replacement is '_'
 
 .B  -c[NUM], --characters=[NUM]
 
@@ -116,19 +120,21 @@ Defaults with -v produce:
 
 	So m.a.n.y d.o.t.s.thing -> So_m-a-n-y_d.o.t.s.thing
 
-	Ṱ̺̺̕o͞ ̷i̲̬͇̪͙n̝̗͕v̟̜̘̦͟o̶̙̰̠kè͚̮̺̪̹̱̤ ̖t̝͕̳̣̻̪͞h̼͓̲̦̳̘̲e͇̣̰̦̬͎ ̢̼̻̱̘h͚͎͙̜̣̲ͅi̦̲̣̰̤v̻͍e̺̭̳̪̰-m̢iͅn̖̺̞̲̯̰d̵̼̟͙̩̼̘̳.thing -> To_?invoke_?the_?hive-mind.thing
+	Ṱ̺̺̕o͞ ̷i̲̬͇̪͙n̝̗͕v̟̜̘̦͟o̶̙̰̠kè͚̮̺̪̹̱̤ ̖t̝͕̳̣̻̪͞h̼͓̲̦̳̘̲e͇̣̰̦̬͎ ̢̼̻̱̘h͚͎͙̜̣̲ͅi̦̲̣̰̤v̻͍e̺̭̳̪̰-m̢iͅn̖̺̞̲̯̰d̵̼̟͙̩̼̘̳.thing -> To_invoke_the_hive-mind.thing
 
 	Žluťoučký kůň.thing -> Zlutoucky_kun.thing
 
-	Ω§E®Ŧ¥↑ıØÞÆẞÐªŊĦŁß©×.thing -> O?E(R)T?iOTHAESSD?NHLss(C)*.thing
+	Ω§E®Ŧ¥↑ıØÞÆẞÐªŊĦŁß©×.thing -> O_E(R)T_iOTHAESSD_NHLss(C)*.thing
 
 	Привет.thing -> Privet.thing
 
 .SH SEE ALSO
 idk - todo
 
-.SH BUGS
-does not have any advanced logic detecting multiple extensions, uses system `std::filesystem::path::stem()` - look at option `-e` for maximum number of extensions cut off before name-fixing begins
+.SH BUGS & CAVEATS
+
+- the 'smart fixes' are special replacements of `-_-`, `,_`, etc. with `-` or `_`
+- does not have any advanced logic detecting multiple extensions, uses system `std::filesystem::path::stem()` - look at option `-e` for maximum number of extensions cut off before name-fixing begins
 
 .SH AUTHOR
 sukulent

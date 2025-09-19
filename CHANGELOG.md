@@ -2,7 +2,8 @@
 
 All notable changes to this project will be documented in this file.
 
-### 1.3.0
+### [1.3.0]
+
 - add smart fixes and corresponding --no-smart flag
 - fix wrong version
 - change default non ASCII replacement from ? to _
@@ -34,6 +35,7 @@ All notable changes to this project will be documented in this file.
 
 ### Initial release
 
+[1.3.0]: https://github.com/sukulent/namefix/releases/tag/v1.3.0
 [1.2.0]: https://github.com/sukulent/namefix/releases/tag/v1.2.0
 [1.1.0]: https://github.com/sukulent/namefix/releases/tag/v1.1.0
 [1.0.1]: https://github.com/sukulent/namefix/releases/tag/v1.0.1
