@@ -3,7 +3,7 @@
 # fail whenever
 set -eo pipefail
 
-pkgver="1.2.0"
+pkgver="1.3.0"
 pkgname=namefix
 
 echo "Starting $pkgname package gen"
@@ -20,7 +20,7 @@ fi
 
 # check if we know what we should do
 if [[ "deb" != "$1"  &&   "rpm" != "$1" ]] ; then
-	echo "error: specify target: rpm or deb"
+	echo "Error: specify target: rpm or deb"
 	exit 1
 fi
 
@@ -45,8 +45,8 @@ if [[ "nfpm" == "$2" ]] ; then
 	echo "dc43d829cf3b1933be9136ae610422a4495e6fa495da005b0b07f7e99a8af0d6 $nfpm_deb" > sha.txt
 
 	# check
-	if [[ $( sha256sum -c sha.txt 1> /dev/null 2>&1 ) ]] ; then
-		echo "error: sha256 missmatch on nfpm"
+	if ! sha256sum -c sha.txt 1> /dev/null 2>&1 ; then
+		echo "Error: sha256 missmatch on nfpm"
 		exit 1
 	fi
 	ar x "$nfpm_deb" data.tar.gz
@@ -62,11 +62,11 @@ if [[ -f "v$pkgver" ]] ; then
 fi
 
 # prepare checksum
-echo "8f72618045340dd92948b91d4e6cb8e2bd6f4ee07e739f37b12b56f1079bd5b7 $pkgname-$pkgver.tar.gz" > sha.txt
+echo "172ae75d01dc32e1376767b6b942a51d3154ae182f93e770e9c45d4d0a4712c1 $pkgname-$pkgver.tar.gz" > sha.txt
 
 # check
-if [[ $( sha256sum -c sha.txt 1>/dev/null 2>&1 ) ]] ; then
-	echo "ERROR: sha256 missmatch on $pkgname archive"
+if ! sha256sum -c sha.txt 1>/dev/null 2>&1 ; then
+	echo "Error: sha256 missmatch on $pkgname archive"
 	exit 1
 fi
 
