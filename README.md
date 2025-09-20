@@ -1,5 +1,8 @@
 # Namefix
-Fix bad filenames - tries to rename files so all characters are ASCII, replaces spaces with an underscore and periods with a hypen, replaces all other non-ASCII characters with an underscore and keeps number of extensions untouched, all of that configurable through bunch of options.
+Fix bad filenames - tries to rename files so all characters are ASCII, replaces
+spaces with an underscore and periods with a hyphen, replaces all other
+non-ASCII characters with an underscore and keeps number of extensions
+untouched, all of that configurable through bunch of options.
 
 ## Examples
 ```
@@ -61,23 +64,34 @@ So m.a.n.y d.o.t.s.thing -> So_m-a-n-y_d.o.t.s.thing
 
 ## Installation
 
+### Arch
+
 PKGBUILD is now available in [AUR](https://aur.archlinux.org/packages/namefix)!
 
-Get it manually or use your AUR helper i.e.:
+Get it manually from AUR or the `aur` branch, build and install using `makepkg -si`
+
+Or use your AUR helper i.e.:
 ```
 yay -S namefix
 ```
-I plan to make ~~an Arch PKGBUILD and also~~ a Debian package sometime in the future.
+
+### Debian and Fedora (deb and rpm)
+
+I made a script for compiling and generating `.deb` or `.rpm` using [nfpm](https://nfpm.goreleaser.com/).\
+See the branch `deb-rpm`'s README for details.
 
 ## Known Bugs & Caveats
 
 - the 'smart fixes' are special replacements of `-_-`, `,_`, etc. with `-` or `_`
-- does not have any advanced logic detecting multiple extensions, uses system `std::filesystem::path::stem()` - look at option `-e` for maximum number of extensions cut off before name-fixing begins
+- does not have any advanced logic detecting multiple extensions, uses system
+	`std::filesystem::path::stem()` - look at option `-e` for maximum number of
+	extensions cut off before name-fixing begins
 
 
 ## Building from source
-You will need to have make, strip (binutils), git and g++ (gcc).
-Than it should be as simple as cloning this repo and running `make`. A namefix executable will be generated, place it wherever you like.
+You will need to have make, strip (binutils), git, g++ (gcc) and libicu headers.
+Than it should be as simple as cloning this repo and running `make`. A namefix
+executable will be generated, place it wherever you like.
 You can run `make install` if you want to copy the executable to /usr/local/bin/,
 and `make uninstall` runs `rm /usr/local/bin/namefix` if you want to remove it.
 
@@ -94,7 +108,8 @@ and `make uninstall` runs `rm /usr/local/bin/namefix` if you want to remove it.
 Firstly, these flags are checked:
 - If help flag is set, show help and exit.
 - If version flag is set, show version and exit.
-- If to-ASCII flag is set, convert the provided string to ASCII and exit. Does not replace spaces or periods.
+- If to-ASCII flag is set, convert the provided string to ASCII and exit.
+	Does not replace spaces or periods.
 
 Than for each file provided:
 - Fail if the file does not exist (if ignore-errors flag is not set)
@@ -107,13 +122,17 @@ Than for each file provided:
 	- if no-smart flag is not set, replace according to smart_fixes
 	- if no-periods flag is not set, replace periods
 - The new path is constructed from original, new filename and original extensions
-- If report flag is set, print the file if new path differs from original, print absolute paths if --verbose-long flag is set, continue to next file.
-- If any verbose flag is set, print info and if original path and new path are the same, continue to next file.
+- If report flag is set, print the file if new path differs from original, print
+	absolute paths if --verbose-long flag is set, continue to next file.
+- If any verbose flag is set, print info and if original path and new path are
+	the same, continue to next file.
 - If dry-run flag is set, skip this, otherwise:
-	- If any keep flag is set, copy the file (if it fails, and ignore-errors not set, exit)
+	- If any keep flag is set, copy the file
+		(if it fails, and ignore-errors not set, exit)
 	- Else rename the file (if it fails, and ignore-errors not set, exit)
 - If all files were processed
-	- and ignore-errors flag is set and errors happend, print how many there were, otherwise
+	- and ignore-errors flag is set and errors happened,
+		print how many there were, otherwise
 - Exit.
 
 
@@ -124,7 +143,8 @@ It is done in these steps:
 - normalize into fully composed form
 - transliterate from Any into Latin
 - transliterate again from Any into ASCII
-- check for all remaining non-ASCII characters and replace them with '_' (or as specified)
+- check for all remaining non-ASCII characters and replace them with '_'
+	(or as specified)
 - resize the name
 - replace spaces
 - replace periods
@@ -132,10 +152,10 @@ It is done in these steps:
 
 ### Other
 
-Currently, I think of this project as complete, but I may revisit it sometime in the future.
-I will try to fix bugs, so feel free to open an issue if you found any.
-The same goes for feature requests, feel free to open an issue and if it catches my eye, I might implement it.
-
+Currently, I think of this project as complete, but I may revisit it sometime in
+the future. I will try to fix bugs, so feel free to open an issue if you found
+any. The same goes for feature requests, feel free to open an issue and if it
+catches my eye, I might implement it.
 
 Using the [args](https://github.com/Taywee/args) library for argument parsing.
 
