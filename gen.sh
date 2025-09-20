@@ -99,6 +99,10 @@ if [[ "deb" == "$1" ]] ; then
 	# replace libicu version with the one installed
 	if ! grep "libicu[0-9][0-9]" "nfpm.yaml" > /dev/null 2>&1; then
 		LIBICU_PKG=$(dpkg --list "libicu*" | grep "libicu[0-9][0-9]" | sed "s/\(ii  \)\(.*\)\(\:.*$\)/\2/")
+		if [[ -z $LIBICU_PKG ]] ; then
+			echo "Error: libicu is not installed"
+			exit 1
+		fi
 		sed -i -e "s/libicu??/$LIBICU_PKG/" "nfpm.yaml"
 	fi
 	$nfpm_bin pkg --packager deb
